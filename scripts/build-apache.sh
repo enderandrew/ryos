@@ -256,6 +256,13 @@ ${api_rules}
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
+  # --- A real sub-folder with its own index.html (a separate game or site you
+  #     dropped into the docroot) is served by DirectoryIndex, not swallowed
+  #     by the SPA fallback below.
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^ - [L]
+
   # --- Single-page-app fallback: any URL whose last segment has no dot
   #     (/finder, /ipod/abc, /terminal ...) boots the desktop.
   RewriteRule (^|/)[^./]*\$ index.html [L]
