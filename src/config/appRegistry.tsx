@@ -79,6 +79,11 @@ const LazyMinesweeperApp = createLazyComponent<unknown>(
   "minesweeper"
 );
 
+const LazyOregonTrailApp = createLazyComponent<unknown>(
+  () => import("@/apps/oregon-trail/components/OregonTrailAppComponent").then(m => ({ default: m.OregonTrailAppComponent })),
+  "oregon-trail"
+);
+
 const LazySoundboardApp = createLazyComponent<unknown>(
   () => import("@/apps/soundboard/components/SoundboardAppComponent").then(m => ({ default: m.SoundboardAppComponent })),
   "soundboard"
@@ -235,6 +240,7 @@ import { appMetadata as paintMetadata, helpItems as paintHelpItems } from "@/app
 import { appMetadata as previewMetadata, helpItems as previewHelpItems } from "@/apps/preview/metadata";
 import { appMetadata as photoboothMetadata, helpItems as photoboothHelpItems } from "@/apps/photo-booth/metadata";
 import { appMetadata as minesweeperMetadata, helpItems as minesweeperHelpItems } from "@/apps/minesweeper";
+import { appMetadata as oregonTrailMetadata, helpItems as oregonTrailHelpItems } from "@/apps/oregon-trail";
 import { appMetadata as videosMetadata, helpItems as videosHelpItems } from "@/apps/videos/metadata";
 import { appMetadata as tvMetadata, helpItems as tvHelpItems } from "@/apps/tv/metadata";
 import { appMetadata as ipodMetadata, helpItems as ipodHelpItems } from "@/apps/ipod/metadata";
@@ -644,6 +650,19 @@ export const appRegistry = {
       defaultSize: { width: 240, height: 360 },
       minSize: { width: 240, height: 360 },
       maxSize: { width: 320, height: 520 },
+    } as WindowConstraints,
+  },
+  ["oregon-trail"]: {
+    id: "oregon-trail",
+    name: "Oregon Trail",
+    icon: { type: "image", src: oregonTrailMetadata.icon },
+    description: "Haul a wagon west, 1848",
+    component: LazyOregonTrailApp,
+    helpItems: oregonTrailHelpItems,
+    metadata: oregonTrailMetadata,
+    windowConfig: {
+      defaultSize: { width: 640, height: 480 },
+      minSize: { width: 400, height: 300 },
     } as WindowConstraints,
   },
   ["stuff"]: {
