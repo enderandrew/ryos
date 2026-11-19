@@ -37,6 +37,7 @@ const APP_NAMES: Record<string, string> = {
   dictionary: "Dictionary",
   fitness: "Fitness",
   journal: "Journal",
+  "oregon-trail": "Oregon Trail",
 };
 
 const APP_DESCRIPTIONS: Record<string, string> = {
@@ -72,6 +73,7 @@ const APP_DESCRIPTIONS: Record<string, string> = {
   dictionary: "Look up words in English, Chinese, Japanese, and Korean",
   fitness: "Exercise guide, workout log, training schedule, and AI food log",
   journal: "A sample journal in two shapes: one page a day, or freeform scraps",
+  "oregon-trail": "Haul a wagon west, 1848",
 };
 
 const APP_ICONS: Record<string, string> = {
@@ -107,6 +109,7 @@ const APP_ICONS: Record<string, string> = {
   dictionary: "dictionary.png",
   fitness: "fitness.png",
   journal: "journal.png",
+  "oregon-trail": "oregon-trail-app.png",
 };
 
 export type SongShareMetadata = {
@@ -672,7 +675,7 @@ export async function resolveSongShareLinkPreview(
   const target = parseSongShareUrl(pageUrl);
   if (!target) return null;
 
-  let requestOrigin = "https://os.ryo.lu";
+  let requestOrigin = "https://mac.enderandrew.com";
   try {
     requestOrigin = new URL(pageUrl).origin;
   } catch {
