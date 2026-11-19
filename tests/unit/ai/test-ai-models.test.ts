@@ -22,9 +22,9 @@ import {
 
 describe("AI model registry", () => {
   test("defaults chat to gpt-6", () => {
-    expect(DEFAULT_AI_MODEL).toBe("gpt-6");
-    expect(DEFAULT_MODEL).toBe("gpt-6");
-    expect(AI_MODELS["gpt-6"].provider).toBe("OpenAI");
+    expect(DEFAULT_AI_MODEL).toBe("gemini-3.6-flash");
+    expect(DEFAULT_MODEL).toBe("gemini-3.6-flash");
+    expect(AI_MODELS["gemini-3.6-flash"].provider).toBe("Google");
   });
 
   test("maps product names to provider API ids", () => {
