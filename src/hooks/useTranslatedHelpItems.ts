@@ -218,6 +218,7 @@ export const APP_HELP_I18N_KEYS: Record<AppId, readonly string[]> = {
   fitness: [...FITNESS_HELP_I18N_KEYS],
   journal: [...JOURNAL_HELP_I18N_KEYS],
   "oregon-trail": ["outfitWagon", "setPace", "fordRivers", "hunt", "progressSaved", "dysentery"],
+  polybius: ["insertCoin", "restart", "legend"],
 };
 
 /**

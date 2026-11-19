@@ -38,6 +38,7 @@ export const appIds = [
   "fitness",
   "journal",
   "oregon-trail",
+  "polybius",
 ] as const;
 
 export type AppId = (typeof appIds)[number];
@@ -89,6 +90,7 @@ export const appNames: Record<AppId, string> = {
   "fitness": "Fitness",
   "journal": "Journal",
   "oregon-trail": "Oregon Trail",
+  "polybius": "Polybius",
 };
 
 /** Get list of apps with basic info for stores */

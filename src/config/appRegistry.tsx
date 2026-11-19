@@ -84,6 +84,11 @@ const LazyOregonTrailApp = createLazyComponent<unknown>(
   "oregon-trail"
 );
 
+const LazyPolybiusApp = createLazyComponent<unknown>(
+  () => import("@/apps/polybius/components/PolybiusAppComponent").then(m => ({ default: m.PolybiusAppComponent })),
+  "polybius"
+);
+
 const LazySoundboardApp = createLazyComponent<unknown>(
   () => import("@/apps/soundboard/components/SoundboardAppComponent").then(m => ({ default: m.SoundboardAppComponent })),
   "soundboard"
@@ -241,6 +246,7 @@ import { appMetadata as previewMetadata, helpItems as previewHelpItems } from "@
 import { appMetadata as photoboothMetadata, helpItems as photoboothHelpItems } from "@/apps/photo-booth/metadata";
 import { appMetadata as minesweeperMetadata, helpItems as minesweeperHelpItems } from "@/apps/minesweeper";
 import { appMetadata as oregonTrailMetadata, helpItems as oregonTrailHelpItems } from "@/apps/oregon-trail";
+import { appMetadata as polybiusMetadata, helpItems as polybiusHelpItems } from "@/apps/polybius";
 import { appMetadata as videosMetadata, helpItems as videosHelpItems } from "@/apps/videos/metadata";
 import { appMetadata as tvMetadata, helpItems as tvHelpItems } from "@/apps/tv/metadata";
 import { appMetadata as ipodMetadata, helpItems as ipodHelpItems } from "@/apps/ipod/metadata";
@@ -660,6 +666,19 @@ export const appRegistry = {
     component: LazyOregonTrailApp,
     helpItems: oregonTrailHelpItems,
     metadata: oregonTrailMetadata,
+    windowConfig: {
+      defaultSize: { width: 640, height: 480 },
+      minSize: { width: 400, height: 300 },
+    } as WindowConstraints,
+  },
+  ["polybius"]: {
+    id: "polybius",
+    name: "Polybius",
+    icon: { type: "image", src: polybiusMetadata.icon },
+    description: "The arcade cabinet that never existed",
+    component: LazyPolybiusApp,
+    helpItems: polybiusHelpItems,
+    metadata: polybiusMetadata,
     windowConfig: {
       defaultSize: { width: 640, height: 480 },
       minSize: { width: 400, height: 300 },

@@ -53,7 +53,8 @@ export interface BaseApp<TInitialData = unknown> {
     | "dictionary"
     | "fitness"
     | "journal"
-    | "oregon-trail";
+    | "oregon-trail"
+    | "polybius";
   name: string;
   icon: string | { type: "image"; src: string };
   description: string;
