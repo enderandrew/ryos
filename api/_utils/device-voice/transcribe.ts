@@ -1,4 +1,4 @@
-export const REALTIME_TRANSCRIBE_URL = "wss://api.openai.com/v1/realtime?intent=transcription";
+export const REALTIME_TRANSCRIBE_URL = "wss://api.groq.com/openai/v1/realtime?intent=transcription";
 export const REALTIME_TRANSCRIBE_MODEL = "gpt-live-transcribe";
 /** Realtime transcription only takes 24 kHz PCM. */
 export const REALTIME_TRANSCRIBE_RATE = 24000;
