@@ -30,7 +30,7 @@ import { ControlPanelsPrefFormRow } from "./ControlPanelsPrefFormRow";
 import {
   ELEVENLABS_TTS_VOICES,
   getTtsVoiceLabel,
-  OPENAI_TTS_VOICES,
+  GROQ_TTS_VOICES,
 } from "./ttsVoiceOptions";
 import { RecoveryEmailDialog } from "@/components/dialogs/RecoveryEmailDialog";
 import type { EmailStatusResponse } from "@/shared/contracts/auth";
@@ -500,7 +500,9 @@ export function AccountsPaneContent({
                       >
                         <SelectTrigger className="w-[120px]">
                           <SelectValue placeholder={t("apps.control-panels.select")}>
-                            {ttsModel || t("apps.control-panels.select")}
+                            {ttsModel
+                              ? t(`apps.control-panels.${ttsModel}`)
+                              : t("apps.control-panels.select")}
                           </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
@@ -574,7 +576,7 @@ export function AccountsPaneContent({
                               <SelectItem value="__null__">
                                 {t("apps.control-panels.select")}
                               </SelectItem>
-                              {OPENAI_TTS_VOICES.map((voice) => (
+                              {GROQ_TTS_VOICES.map((voice) => (
                                 <SelectItem key={voice.value} value={voice.value}>
                                   {t(voice.labelKey)}
                                 </SelectItem>

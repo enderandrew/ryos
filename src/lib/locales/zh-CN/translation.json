@@ -1987,8 +1987,8 @@
       "nameForMacosX": "系统偏好设置",
       "noMatchingPreferences": "没有匹配的偏好设置",
       "noWallpapers": "没有背景图片",
-      "openai": "OpenAI",
-      "openaiVoice": "OpenAI 语音",
+      "openai": "Groq",
+      "openaiVoice": "Groq 语音",
       "panes": {
         "accounts": "账户",
         "appearance": "外观",
@@ -2220,7 +2220,13 @@
         "ryoPvc": "Ryo PVC",
         "ryoV2": "Ryo v2",
         "ryoV3": "Ryo v3",
-        "shimmer": "Shimmer"
+        "shimmer": "Shimmer",
+        "troy": "Troy",
+        "austin": "Austin",
+        "daniel": "Daniel",
+        "autumn": "Autumn",
+        "diana": "Diana",
+        "hannah": "Hannah"
       },
       "ui": "用户界面",
       "uiSounds": "UI 音效",
@@ -5633,6 +5639,29 @@
         "dysentery": {
           "title": "You Have Died of Dysentery",
           "description": "It happens. Start a fresh trip from File ▸ New Trip"
+        }
+      }
+    },
+    "polybius": {
+      "name": "Polybius",
+      "description": "The arcade cabinet that never existed",
+      "menu": {
+        "restart": "Restart",
+        "help": "Polybius Help",
+        "about": "About Polybius"
+      },
+      "help": {
+        "insertCoin": {
+          "title": "Insert Coin",
+          "description": "Click inside the cabinet first so the game receives your keyboard and mouse"
+        },
+        "restart": {
+          "title": "Restart",
+          "description": "File ▸ Restart reloads the cabinet from the attract screen"
+        },
+        "legend": {
+          "title": "The Legend",
+          "description": "A parody of the 1981 arcade urban legend — the cabinet that supposedly appeared in Portland and then vanished"
         }
       }
     }

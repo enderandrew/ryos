@@ -38,6 +38,7 @@ const APP_NAMES: Record<string, string> = {
   fitness: "Fitness",
   journal: "Journal",
   "oregon-trail": "Oregon Trail",
+  polybius: "Polybius",
 };
 
 const APP_DESCRIPTIONS: Record<string, string> = {
@@ -74,6 +75,7 @@ const APP_DESCRIPTIONS: Record<string, string> = {
   fitness: "Exercise guide, workout log, training schedule, and AI food log",
   journal: "A sample journal in two shapes: one page a day, or freeform scraps",
   "oregon-trail": "Haul a wagon west, 1848",
+  polybius: "The arcade cabinet that never existed",
 };
 
 const APP_ICONS: Record<string, string> = {
@@ -110,6 +112,7 @@ const APP_ICONS: Record<string, string> = {
   fitness: "fitness.png",
   journal: "journal.png",
   "oregon-trail": "oregon-trail-app.png",
+  polybius: "polybius-app.png",
 };
 
 export type SongShareMetadata = {

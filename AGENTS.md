@@ -76,8 +76,8 @@ The following environment variables are required for full functionality:
 - `YOUTUBE_API_KEY` - YouTube Data API (for video metadata)
 - `YOUTUBE_API_KEY_2` - YouTube Data API fallback key
 - `YOUTUBE_API_KEY_3` - YouTube Data API second fallback key (tried after `YOUTUBE_API_KEY_2` on quota exhaustion)
-- `GROQ_API_KEY` - Groq API (preferred for audio transcription, `whisper-large-v3`)
-- `OPENAI_API_KEY` - OpenAI API (OpenAI models, TTS, and the transcription fallback with `whisper-1` when `GROQ_API_KEY` is unset)
+- `GROQ_API_KEY` - Groq API, preferred over OpenAI wherever both could serve: transcription (`whisper-large-v3`), text-to-speech for the "OpenAI"-slot voice (Orpheus `canopylabs/orpheus-v1-english`, 200-char pieces joined server-side; also used when `ELEVENLABS_API_KEY` is unset), and song lyric translation / furigana / soramimi (`openai/gpt-oss-120b`, `api/_utils/_text-model.ts`)
+- `OPENAI_API_KEY` - OpenAI API: the OpenAI chat models, realtime device-voice transcription, Stuff background removal, and the fallback for everything above when `GROQ_API_KEY` is unset (`whisper-1`, `tts-1`, `gpt-5.4`)
 - `MAPKIT_TEAM_ID` / `MAPKIT_KEY_ID` / `MAPKIT_PRIVATE_KEY` / `MAPKIT_ORIGIN` - Apple MapKit (powers the Maps app + the AI's `mapsSearchPlaces` tool via the Apple Maps Server API)
 - `MUSICKIT_TEAM_ID` / `MUSICKIT_KEY_ID` / `MUSICKIT_PRIVATE_KEY` / `MUSICKIT_ORIGIN` - MusicKit JS v3 (Apple Music) used by the iPod's "Apple Music" library mode. Reuse the same `.p8` key as MapKit if both services are enabled on the key — the signer falls back to `MAPKIT_TEAM_ID` / `MAPKIT_KEY_ID` / `MAPKIT_PRIVATE_KEY` when the `MUSICKIT_*` variants are unset.
 - `RYOS_APNS_TEAM_ID` / `RYOS_APNS_KEY_ID` / `RYOS_APNS_KEY_B64` - APNs push notifications for the ryOS iOS app (`api/_utils/push-relay.ts`, `/api/push/register|unregister`). `RYOS_APNS_KEY_B64` is the base64 of the `.p8` file; `RYOS_APNS_KEY_FILE` (path) is accepted instead. Never commit the `.p8` (`*.p8` is gitignored). When unset, device registration still works but no pushes are sent. Test with `bun run push:test <64-hex-token> [sandbox|prod]`.

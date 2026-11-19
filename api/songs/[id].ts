@@ -109,7 +109,7 @@ import {
 } from "./_soramimi.js";
 
 import { streamText } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { getTextJobModel, getTextJobProviderOptions } from "../_utils/_text-model.js";
 import {
   decodeAnnotatedSegments,
   decodeLyricText,
@@ -1316,7 +1316,8 @@ export default apiHandler<Record<string, unknown>>(
 
           // Use streamText with GPT-5.4
           const result = streamText({
-            model: openai("gpt-5.4"),
+            model: getTextJobModel(),
+            providerOptions: getTextJobProviderOptions(),
             instructions: getTranslationSystemPrompt(language),
             messages: [
               { role: "user", content: textsToProcess },
@@ -1548,7 +1549,8 @@ export default apiHandler<Record<string, unknown>>(
           };
 
           const result = streamText({
-            model: openai("gpt-5.4"),
+            model: getTextJobModel(),
+            providerOptions: getTextJobProviderOptions(),
             instructions: FURIGANA_STREAM_SYSTEM_PROMPT,
             messages: [
               { role: "user", content: textsToProcess },
@@ -1836,7 +1838,8 @@ export default apiHandler<Record<string, unknown>>(
 
           // Use streamText
           const result = streamText({
-            model: openai("gpt-5.4"),
+            model: getTextJobModel(),
+            providerOptions: getTextJobProviderOptions(),
             instructions: systemPrompt,
             messages: [
               { role: "user", content: textsToProcess },

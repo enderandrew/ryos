@@ -4,7 +4,7 @@
  * Handles generating furigana (reading annotations) for Japanese lyrics.
  */
 
-import { openai } from "@ai-sdk/openai";
+import { getTextJobModel, getTextJobProviderOptions } from "../_utils/_text-model.js";
 import { streamText } from "ai";
 import { decodeAnnotatedSegments } from "../_utils/html-entities.js";
 import { logInfo, logError, type LyricLine } from "./_utils.js";
@@ -263,7 +263,8 @@ export async function streamFurigana(
 
   try {
     const result = streamText({
-      model: openai("gpt-5.4"),
+      model: getTextJobModel(),
+      providerOptions: getTextJobProviderOptions(),
       instructions: systemPrompt,
       messages: [
         { role: "user", content: textsToProcess },

@@ -1816,6 +1816,10 @@
     "oregon-trail": {
       "name": "Oregon Trail",
       "description": "Haul a wagon west, 1848"
+    },
+    "polybius": {
+      "name": "Polybius",
+      "description": "The arcade cabinet that never existed"
     }
   }
 }

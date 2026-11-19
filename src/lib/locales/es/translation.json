@@ -1989,8 +1989,8 @@
       "nameForMacosX": "Preferencias del Sistema",
       "noMatchingPreferences": "No hay preferencias coincidentes",
       "noWallpapers": "No hay fondos de pantalla",
-      "openai": "OpenAI",
-      "openaiVoice": "Voz de OpenAI",
+      "openai": "Groq",
+      "openaiVoice": "Voz de Groq",
       "panes": {
         "accounts": "Cuentas",
         "appearance": "Apariencia",
@@ -2222,7 +2222,13 @@
         "ryoPvc": "Ryo PVC",
         "ryoV2": "Ryo v2",
         "ryoV3": "Ryo v3",
-        "shimmer": "Destello"
+        "shimmer": "Destello",
+        "troy": "Troy",
+        "austin": "Austin",
+        "daniel": "Daniel",
+        "autumn": "Autumn",
+        "diana": "Diana",
+        "hannah": "Hannah"
       },
       "ui": "Interfaz",
       "uiSounds": "Sonidos de UI",
@@ -5646,6 +5652,29 @@
         "dysentery": {
           "title": "You Have Died of Dysentery",
           "description": "It happens. Start a fresh trip from File ▸ New Trip"
+        }
+      }
+    },
+    "polybius": {
+      "name": "Polybius",
+      "description": "The arcade cabinet that never existed",
+      "menu": {
+        "restart": "Restart",
+        "help": "Polybius Help",
+        "about": "About Polybius"
+      },
+      "help": {
+        "insertCoin": {
+          "title": "Insert Coin",
+          "description": "Click inside the cabinet first so the game receives your keyboard and mouse"
+        },
+        "restart": {
+          "title": "Restart",
+          "description": "File ▸ Restart reloads the cabinet from the attract screen"
+        },
+        "legend": {
+          "title": "The Legend",
+          "description": "A parody of the 1981 arcade urban legend — the cabinet that supposedly appeared in Portland and then vanished"
         }
       }
     }

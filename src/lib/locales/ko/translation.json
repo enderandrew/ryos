@@ -1987,8 +1987,8 @@
       "nameForMacosX": "시스템 환경설정",
       "noMatchingPreferences": "일치하는 설정 없음",
       "noWallpapers": "배경화면 없음",
-      "openai": "OpenAI",
-      "openaiVoice": "OpenAI 음성",
+      "openai": "Groq",
+      "openaiVoice": "Groq 음성",
       "panes": {
         "accounts": "계정",
         "appearance": "외관",
@@ -2220,7 +2220,13 @@
         "ryoPvc": "Ryo PVC",
         "ryoV2": "Ryo v2",
         "ryoV3": "Ryo v3",
-        "shimmer": "쉬머"
+        "shimmer": "쉬머",
+        "troy": "Troy",
+        "austin": "Austin",
+        "daniel": "Daniel",
+        "autumn": "Autumn",
+        "diana": "Diana",
+        "hannah": "Hannah"
       },
       "ui": "UI",
       "uiSounds": "UI 소리",
@@ -5633,6 +5639,29 @@
         "dysentery": {
           "title": "You Have Died of Dysentery",
           "description": "It happens. Start a fresh trip from File ▸ New Trip"
+        }
+      }
+    },
+    "polybius": {
+      "name": "Polybius",
+      "description": "The arcade cabinet that never existed",
+      "menu": {
+        "restart": "Restart",
+        "help": "Polybius Help",
+        "about": "About Polybius"
+      },
+      "help": {
+        "insertCoin": {
+          "title": "Insert Coin",
+          "description": "Click inside the cabinet first so the game receives your keyboard and mouse"
+        },
+        "restart": {
+          "title": "Restart",
+          "description": "File ▸ Restart reloads the cabinet from the attract screen"
+        },
+        "legend": {
+          "title": "The Legend",
+          "description": "A parody of the 1981 arcade urban legend — the cabinet that supposedly appeared in Portland and then vanished"
         }
       }
     }

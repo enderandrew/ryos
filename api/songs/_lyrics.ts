@@ -4,7 +4,7 @@
  * Handles parsing LRC/KRC formats and translating lyrics via AI.
  */
 
-import { openai } from "@ai-sdk/openai";
+import { getTextJobModel, getTextJobProviderOptions } from "../_utils/_text-model.js";
 import { Converter } from "opencc-js";
 import { decodeLyricText } from "../_utils/html-entities.js";
 import {
@@ -682,7 +682,8 @@ export async function streamTranslation(
 
   try {
     const result = streamText({
-      model: openai("gpt-5.4"),
+      model: getTextJobModel(),
+      providerOptions: getTextJobProviderOptions(),
       instructions: systemPrompt,
       messages: [
         { role: "user", content: textsToProcess },

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-19T03:42:56.624Z",
+  "generatedAt": "2026-11-19T13:17:19.444Z",
   "themes": {
     "dashboard-widgets": [
       "address-book.png",
@@ -127,6 +127,7 @@
       "pc.png",
       "photo-booth.png",
       "piano.png",
+      "polybius-app.png",
       "preview.png",
       "question.png",
       "site.png",
@@ -335,7 +336,8 @@
     ],
     "system7": [
       "apple-orb.png",
-      "oregon-trail-app.png"
+      "oregon-trail-app.png",
+      "polybius-app.png"
     ],
     "win98": [
       "account-login.png",
@@ -444,6 +446,7 @@
       "pc.png",
       "photo-booth.png",
       "piano.png",
+      "polybius-app.png",
       "preview.png",
       "question.png",
       "site.png",
@@ -606,6 +609,7 @@
       "pc.png",
       "photo-booth.png",
       "piano.png",
+      "polybius-app.png",
       "preview.png",
       "question.png",
       "site.png",
