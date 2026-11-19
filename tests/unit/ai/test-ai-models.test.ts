@@ -21,10 +21,10 @@ import {
 } from "../../../api/_utils/_aiModels.js";
 
 describe("AI model registry", () => {
-  test("defaults chat to gpt-6", () => {
-    expect(DEFAULT_AI_MODEL).toBe("gemini-3.6-flash");
-    expect(DEFAULT_MODEL).toBe("gemini-3.6-flash");
-    expect(AI_MODELS["gemini-3.6-flash"].provider).toBe("Google");
+  test("defaults chat to gemini-3.8-flash", () => {
+    expect(DEFAULT_AI_MODEL).toBe("gemini-3.8-flash");
+    expect(DEFAULT_MODEL).toBe("gemini-3.8-flash");
+    expect(AI_MODELS["gemini-3.8-flash"].provider).toBe("Google");
   });
 
   test("maps product names to provider API ids", () => {
@@ -94,7 +94,7 @@ describe("opus-5.5 access control", () => {
       canAccessAiModel("opus-5.5", { username: "alice", debugMode: true })
     ).toBe(false);
     expect(canAccessAiModel("opus-5.5", { debugMode: true })).toBe(false);
-    expect(canAccessAiModel("gpt-6", { username: "alice" })).toBe(true);
+    expect(canAccessAiModel(DEFAULT_AI_MODEL, { username: "alice" })).toBe(true);
     expect(
       canAccessAiModel("gpt-6.1-sol", { username: "alice", debugMode: true })
     ).toBe(false);
@@ -153,16 +153,16 @@ describe("opus-5.5 access control", () => {
         username: "alice",
         debugMode: true,
       })
-    ).toEqual({ ok: true, model: "gpt-6" });
+    ).toEqual({ ok: true, model: DEFAULT_AI_MODEL });
     expect(
       resolveRequestedAiModel("gpt-6.1-sol", {
         username: "alice",
         debugMode: true,
       })
-    ).toEqual({ ok: true, model: "gpt-6" });
+    ).toEqual({ ok: true, model: DEFAULT_AI_MODEL });
     expect(
       resolveRequestedAiModel("sonnet-5.5", { username: "alice" })
-    ).toEqual({ ok: true, model: "gpt-6" });
+    ).toEqual({ ok: true, model: DEFAULT_AI_MODEL });
     expect(
       resolveRequestedAiModel("claude-sonnet-5-5", { username: "ryo" })
     ).toEqual({ ok: true, model: "sonnet-5.5" });
@@ -179,7 +179,7 @@ describe("opus-5.5 access control", () => {
     });
     expect(resolveRequestedAiModel("not-a-model")).toEqual({
       ok: true,
-      model: "gpt-6",
+      model: DEFAULT_AI_MODEL,
     });
     expect(resolveRequestedAiModel("not-a-model", { username: "ryo" })).toEqual({
       ok: false,
@@ -188,7 +188,7 @@ describe("opus-5.5 access control", () => {
     });
     expect(resolveRequestedAiModel(null)).toEqual({
       ok: true,
-      model: "gpt-6",
+      model: DEFAULT_AI_MODEL,
     });
   });
 
@@ -227,13 +227,13 @@ describe("request debug-mode parsing", () => {
 });
 
 describe("telegram model selection", () => {
-  test("defaults to gpt-6 when TELEGRAM_BOT_MODEL is unset", () => {
+  test("defaults to the default model when TELEGRAM_BOT_MODEL is unset", () => {
     const logMessages: string[] = [];
     const model = getTelegramModel(
       (message) => logMessages.push(String(message)),
       {}
     );
-    expect(model).toBe("gpt-6");
+    expect(model).toBe(DEFAULT_AI_MODEL);
     expect(logMessages).toHaveLength(0);
   });
 
@@ -243,7 +243,7 @@ describe("telegram model selection", () => {
       (message) => logMessages.push(String(message)),
       { TELEGRAM_BOT_MODEL: "opus-5.5" }
     );
-    expect(model).toBe("gpt-6");
+    expect(model).toBe(DEFAULT_AI_MODEL);
     expect(logMessages[0]).toContain("Restricted TELEGRAM_BOT_MODEL");
   });
 });

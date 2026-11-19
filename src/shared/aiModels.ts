@@ -76,11 +76,11 @@ export const AI_MODEL_METADATA: AIModelInfo[] = Object.entries(AI_MODELS).map(
 );
 
 // Default model
-export const DEFAULT_AI_MODEL: SupportedModel = "gemini-3.6-flash";
+export const DEFAULT_AI_MODEL: SupportedModel = "gemini-3.8-flash";
 
 /**
  * Product / API aliases → registry ids.
- * `gpt-6` is the default and uses the OpenAI id `gpt-6-luna`.
+ * `gemini-3.8-flash` is the default. `gpt-6` uses the OpenAI id `gpt-6-luna`.
  * `gpt-6.1-sol` and `sonnet-5.5` are their own selectable models.
  * Older wire ids still resolve. `sonnet-5.5` uses Anthropic id `claude-sonnet-5-5`.
  */

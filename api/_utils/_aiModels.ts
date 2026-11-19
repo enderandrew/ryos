@@ -78,7 +78,11 @@ function createModelInstance(model: SupportedModel): LanguageModel {
     case "gemini-3.1-pro-preview":
       return google("gemini-3.1-pro-preview");
     default:
-      return openai("gpt-6-luna");
+      // Unknown ids fall back to the configured default model (whatever its
+      // provider), never to a hard-coded one. The guard stops recursion.
+      return model === DEFAULT_MODEL
+        ? google("gemini-3.8-flash")
+        : createModelInstance(DEFAULT_MODEL);
   }
 }
 
