@@ -5,7 +5,7 @@ import { toFile } from "openai/uploads";
 export const DEFAULT_TTS_MODEL = "elevenlabs";
 export const DEFAULT_OPENAI_TTS_VOICE = "alloy";
 export const DEFAULT_OPENAI_TTS_SPEED = 1.1;
-export const DEFAULT_TRANSCRIPTION_MODEL = "whisper-1";
+export const DEFAULT_TRANSCRIPTION_MODEL = "whisper-large-v3";
 
 export const DEFAULT_ELEVENLABS_VOICE_ID = "OHP6tMHkOsRKrsDdbPah"; // Ryo PVC
 export const DEFAULT_ELEVENLABS_MODEL_ID = "eleven_turbo_v2_5"; // 2.5 turbo
