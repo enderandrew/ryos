@@ -28,7 +28,7 @@ export type RetailLookupResult = {
 
 const BROWSER_UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
-const APP_UA = "ryOS-Stuff/1.0 (https://os.ryo.lu)";
+const APP_UA = "ryOS-Stuff/1.0 (https://mac.enderandrew.com)";
 const SCRAPE_TIMEOUT_MS = 7000;
 
 /** Env kill-switch for HTML scrapes (Amazon / DuckDuckGo / Apple.com). */

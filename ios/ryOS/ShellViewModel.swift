@@ -31,7 +31,7 @@ struct ShellNotificationOptions {
 
 @MainActor
 final class ShellViewModel: ObservableObject {
-    static let origin = URL(string: "https://os.ryo.lu")!
+    static let origin = URL(string: "https://mac.enderandrew.com")!
 
     enum BootPhase: Equatable {
         case downloading   // first-ever launch: fetching the web client

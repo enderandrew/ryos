@@ -42,8 +42,8 @@ describe("kosync md5 helpers", () => {
   });
 
   test("getKosyncServerUrl strips trailing slashes", () => {
-    expect(getKosyncServerUrl("https://os.ryo.lu/")).toBe(
-      "https://os.ryo.lu/api/kosync"
+    expect(getKosyncServerUrl("https://mac.enderandrew.com/")).toBe(
+      "https://mac.enderandrew.com/api/kosync"
     );
   });
 

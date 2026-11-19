@@ -1011,7 +1011,7 @@ async function bootstrap(): Promise<void> {
         const origin =
           getConfiguredPublicOrigin() ||
           (url.origin && !url.origin.includes(",") ? url.origin : null) ||
-          "https://os.ryo.lu";
+          "https://mac.enderandrew.com";
         return jsResponse(buildAppConfigScript(origin), 200);
       }
 

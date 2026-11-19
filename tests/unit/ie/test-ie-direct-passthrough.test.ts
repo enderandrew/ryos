@@ -17,12 +17,12 @@ import {
 
 describe("isDirectPassthrough", () => {
   test("ryo.lu sites load directly through the first-party classifier", () => {
-    const ctx = buildIeTrustContext({ windowOrigin: "https://os.ryo.lu" });
+    const ctx = buildIeTrustContext({ windowOrigin: "https://mac.enderandrew.com" });
     expect(classifyIeTarget("https://ryo.lu", ctx)).toBe("ryo");
     expect(classifyIeTarget("https://ryo.lu/journal", ctx)).toBe("ryo");
     expect(classifyIeTarget("ryo.lu", ctx)).toBe("ryo");
     expect(classifyIeTarget("https://www.ryo.lu", ctx)).toBe("ryo-subdomain");
-    expect(classifyIeTarget("https://os.ryo.lu/docs", ctx)).toBe("app");
+    expect(classifyIeTarget("https://mac.enderandrew.com/docs", ctx)).toBe("app");
     expect(DIRECT_PASSTHROUGH_DOMAINS).not.toContain("ryo.lu");
     expect(isDirectPassthrough("https://ryo.lu")).toBe(false);
   });

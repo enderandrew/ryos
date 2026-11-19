@@ -5,7 +5,7 @@ import { getHeader } from "./request-helpers.js";
 
 type RuntimeEnv = "production" | "development";
 
-const PROD_ALLOWED_ORIGIN = "https://os.ryo.lu";
+const PROD_ALLOWED_ORIGIN = "https://mac.enderandrew.com";
 const DEFAULT_TAILNET_ORIGIN_SUFFIX = ".tailb4fa61.ts.net";
 const LOCALHOST_HOSTNAMES = new Set(["localhost", "127.0.0.1", "::1"]);
 const LOCALHOST_PORTS = new Set(["80", "443", "3000", "3001", "5173"]);

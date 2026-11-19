@@ -2,7 +2,7 @@ import { isIeLiveBrowserConfigured } from "./_ie-live.js";
 
 export type RealtimeProvider = "pusher" | "local";
 
-const DEFAULT_PUBLIC_ORIGIN = "https://os.ryo.lu";
+const DEFAULT_PUBLIC_ORIGIN = "https://mac.enderandrew.com";
 const DEFAULT_REALTIME_PROVIDER: RealtimeProvider = "pusher";
 const DEFAULT_WS_PATH = "/ws";
 const DEFAULT_PUSHER_CLUSTER = "us3";
@@ -179,7 +179,7 @@ export function getAllowedAppHosts(): {
     : [];
 
   const hosts: string[] = [
-    "os.ryo.lu",
+    "mac.enderandrew.com",
     "localhost",
     "127.0.0.1",
     "[::1]",

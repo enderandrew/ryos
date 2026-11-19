@@ -67,7 +67,7 @@ export const DATASET_TIMEOUT_MS: Record<DatasetId, number> = {
 
 const WORDNET_FALLBACK_TIMEOUT_MS = 60_000;
 
-const DICTIONARY_USER_AGENT = "ryOS-dictionary/1.0 (+https://os.ryo.lu)";
+const DICTIONARY_USER_AGENT = "ryOS-dictionary/1.0 (+https://mac.enderandrew.com)";
 
 export function datasetMirrors(id: DatasetId): readonly DatasetMirror[] {
   if (id === "wordnet") {

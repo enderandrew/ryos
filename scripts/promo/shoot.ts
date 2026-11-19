@@ -171,7 +171,7 @@ async function dictExtra(page: Page) {
       const file = m ? `${m[1][0].toUpperCase()}${m[1].slice(1)}-${m[3]}-${m[2]}.ogg` : null;
       const api = `https://commons.wikimedia.org/w/api.php?action=query&titles=File:${encodeURIComponent(file ?? "")}&prop=imageinfo&iiprop=url&format=json`;
       // Wikimedia answers requests without a descriptive User-Agent with an HTML error page.
-      const headers = { "User-Agent": "ryOS-promo/1.0 (https://os.ryo.lu)" };
+      const headers = { "User-Agent": "ryOS-promo/1.0 (https://mac.enderandrew.com)" };
       const info = file ? await (await fetch(api, { headers })).json() : null;
       const src = info && (Object.values(info.query.pages)[0] as { imageinfo?: { url: string }[] }).imageinfo?.[0]?.url;
       const res = src ? await fetch(src, { headers }) : null;

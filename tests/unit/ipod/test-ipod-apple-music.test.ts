@@ -409,7 +409,7 @@ describe("Apple Music song sharing", () => {
     expect(generateAppleMusicSongShareUrl(track, "jp")).toBe(
       "https://music.apple.com/jp/song/1616228595"
     );
-    expect(generateIpodSongShareUrl(track, "https://os.ryo.lu", "jp")).toBe(
+    expect(generateIpodSongShareUrl(track, "https://mac.enderandrew.com", "jp")).toBe(
       "https://music.apple.com/jp/song/1616228595"
     );
   });

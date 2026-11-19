@@ -22,7 +22,7 @@ export function VersionDisplay() {
         href="#"
         onClick={(e) => {
           e.preventDefault();
-          launchApp("internet-explorer", { url: "os.ryo.lu/docs/changelog", year: "current" });
+          launchApp("internet-explorer", { url: "mac.enderandrew.com/docs/changelog", year: "current" });
         }}
         className="text-os-link hover:underline"
       >

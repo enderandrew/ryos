@@ -182,12 +182,12 @@ describe("IE proxy response policy", () => {
   test("error document reports over postMessage with a nonce", () => {
     const doc = buildIeProxyErrorDocument(
       { error: true, type: "http_error", status: 404, message: "<b>Not found</b>" },
-      { nonce: "n0nce", frameToken: "abcdefghijklmnop.1", parentOrigin: "https://os.ryo.lu" }
+      { nonce: "n0nce", frameToken: "abcdefghijklmnop.1", parentOrigin: "https://mac.enderandrew.com" }
     );
     expect(doc).toContain('<script nonce="n0nce">');
     expect(doc).toContain('"type":"iframeProxyError"');
     expect(doc).toContain('"ieFrame":"abcdefghijklmnop.1"');
-    expect(doc).toContain('"https://os.ryo.lu"');
+    expect(doc).toContain('"https://mac.enderandrew.com"');
     expect(doc).toContain("&lt;b&gt;Not found&lt;/b&gt;");
   });
 
@@ -195,11 +195,11 @@ describe("IE proxy response policy", () => {
     const script = buildIeNavigationInterceptorScript({
       nonce: "n0nce",
       frameToken: "abcdefghijklmnop.1",
-      parentOrigin: "https://os.ryo.lu",
+      parentOrigin: "https://mac.enderandrew.com",
     });
     expect(script).toContain('<script nonce="n0nce">');
     expect(script).toContain('var frameToken = "abcdefghijklmnop.1"');
-    expect(script).toContain('var parentOrigin = "https://os.ryo.lu"');
+    expect(script).toContain('var parentOrigin = "https://mac.enderandrew.com"');
     expect(script).toContain("realParent.postMessage(message, parentOrigin)");
     expect(script).toContain("type: 'iframeLoaded'");
   });
@@ -215,7 +215,7 @@ describe("isolated proxy origin config", () => {
   test("defaults to same-origin mode", () => {
     delete process.env.IE_PROXY_ORIGIN;
     expect(getIeProxyIsolatedOrigin()).toBeNull();
-    expect(isIeProxyIsolatedHostHeader("os.ryo.lu")).toBe(false);
+    expect(isIeProxyIsolatedHostHeader("mac.enderandrew.com")).toBe(false);
   });
 
   test("recognizes the configured isolated host", () => {
@@ -223,7 +223,7 @@ describe("isolated proxy origin config", () => {
     expect(getIeProxyIsolatedOrigin()).toBe("https://ieproxy.ryo.lu");
     expect(isIeProxyIsolatedHostHeader("ieproxy.ryo.lu")).toBe(true);
     expect(isIeProxyIsolatedHostHeader("IEPROXY.ryo.lu")).toBe(true);
-    expect(isIeProxyIsolatedHostHeader("os.ryo.lu")).toBe(false);
+    expect(isIeProxyIsolatedHostHeader("mac.enderandrew.com")).toBe(false);
   });
 
   test("ignores invalid values", () => {
@@ -242,7 +242,7 @@ describe("isolated proxy origin config", () => {
 });
 
 describe("IE client frame messaging", () => {
-  const appOrigin = "https://os.ryo.lu";
+  const appOrigin = "https://mac.enderandrew.com";
 
   test("proxy iframes never get allow-same-origin", () => {
     expect(IE_PROXY_IFRAME_SANDBOX).not.toContain("allow-same-origin");
@@ -250,7 +250,7 @@ describe("IE client frame messaging", () => {
       IE_PROXY_IFRAME_SANDBOX
     );
     expect(
-      getIeIframeSandbox("https://os.ryo.lu/api/iframe-check?url=x", appOrigin)
+      getIeIframeSandbox("https://mac.enderandrew.com/api/iframe-check?url=x", appOrigin)
     ).toBe(IE_PROXY_IFRAME_SANDBOX);
     expect(getIeIframeSandbox(null, appOrigin)).toBe(IE_PROXY_IFRAME_SANDBOX);
     expect(getIeIframeSandbox("javascript:alert(1)", appOrigin)).toBe(

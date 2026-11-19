@@ -176,7 +176,7 @@ describe("mood emoji and clean speech", () => {
 
   test("waits for a markdown link to close before cutting", () => {
     const chunker = new SpeechChunker();
-    const reply = "You can read all about it over at [the ryOS docs. They are great](https://os.ryo.lu/docs) whenever.";
+    const reply = "You can read all about it over at [the ryOS docs. They are great](https://mac.enderandrew.com/docs) whenever.";
     const pieces = Array.from(reply).flatMap((ch) => chunker.push(ch));
     pieces.push(...chunker.flush());
     expect(pieces.map((piece) => piece.text).join(" ")).toBe(

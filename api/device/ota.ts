@@ -22,7 +22,7 @@ export default apiHandler(
   async ({ req, res, redis, logger, startTime, user }) => {
     const host = headerValue(req.headers["x-forwarded-host"]) || headerValue(req.headers.host);
     const proto = headerValue(req.headers["x-forwarded-proto"]) || "https";
-    const origin = getConfiguredPublicOrigin() || (host ? `${proto}://${host}` : "https://os.ryo.lu");
+    const origin = getConfiguredPublicOrigin() || (host ? `${proto}://${host}` : "https://mac.enderandrew.com");
     const timeZone = user ? await getStoredUserTimeZone(redis, user.username).catch(() => null) : null;
 
     logger.response(200, Date.now() - startTime);

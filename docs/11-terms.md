@@ -1,6 +1,6 @@
 # Terms of Service
 
-These Terms of Service ("Terms") govern your use of ryOS, a web-based desktop environment, as hosted at `os.ryo.lu`. By using ryOS you agree to these Terms. If you do not agree, please do not use the service.
+These Terms of Service ("Terms") govern your use of ryOS, a web-based desktop environment, as hosted at `mac.enderandrew.com`. By using ryOS you agree to these Terms. If you do not agree, please do not use the service.
 
 *Last updated: October 1, 2026.*
 
@@ -97,7 +97,7 @@ You may stop using ryOS at any time and delete your data via **Control Panels**.
 
 ## 12. Self-hosting
 
-ryOS is open source. If you run your own instance, you operate that deployment and are responsible for its configuration, the third-party keys you enable, and compliance with applicable law. These Terms describe the hosted service at `os.ryo.lu`; a self-hosted operator may set their own terms.
+ryOS is open source. If you run your own instance, you operate that deployment and are responsible for its configuration, the third-party keys you enable, and compliance with applicable law. These Terms describe the hosted service at `mac.enderandrew.com`; a self-hosted operator may set their own terms.
 
 ---
 
