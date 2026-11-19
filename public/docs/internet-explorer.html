@@ -379,6 +379,7 @@
     <a href="/docs/stuff" class="nav-child ">2.29 Stuff</a>
     <a href="/docs/dictionary" class="nav-child ">2.30 Dictionary</a>
     <a href="/docs/fitness" class="nav-child ">2.31 Fitness</a>
+    <a href="/docs/journal" class="nav-child ">2.32 Journal</a>
   </div>
 </div>
 <div class="nav-group ">
@@ -506,6 +507,9 @@ The app consists of 4 component file(s):
 <h3>Hooks & Utilities</h3>
 <strong>Custom Hooks:</strong>
 <ul><li><code><a href="https://github.com/ryokun6/ryos/blob/main/src/apps/internet-explorer/hooks/useAiGeneration.ts" target="_blank" rel="noopener noreferrer" style="color: var(--doc-link); text-decoration: underline;">src/apps/internet-explorer/hooks/useAiGeneration.ts</a></code>: A custom hook responsible for interfacing with the AI backend to reconstruct historical web pages and generate future web content.</li></ul>
+<h3>Proxy Isolation</h3>
+Live pages load through <code>/api/iframe-check</code>. Proxied content never runs with the ryOS origin:
+<ul><li>The IE iframe sandbox omits <code>allow-same-origin</code> for proxied pages, and every proxy response carries a CSP <code>sandbox</code> header, <code>X-Content-Type-Options: nosniff</code>, and <code>frame-ancestors</code> limited to ryOS origins.</li></ul><ul><li>By default (same origin), upstream scripts, inline event handlers and <code>javascript:</code> URLs are stripped and a nonce-only <code>script-src</code> blocks anything left over. Raw sub-resources with script-capable types (HTML, SVG, XML, JS) are served as <code>text/plain</code>; unknown binary types download.</li><li>Proxied HTML is hard-capped at ~2.5 MB. Raw / non-HTML <code>?raw=1</code> (and other non-HTML) passthrough streams up to ~25 MB; past that the proxy cancels the upstream download and closes the response (truncated body, original status already sent).</li><li>The parent talks to the page over <code>postMessage</code>. Each proxy URL carries <code>ieFrame=&lt;window token&gt;.&lt;navigation id&gt;</code>; the injected script echoes it, and the parent drops any message whose sender isn't its iframe window or whose id is stale.</li><li>Optional isolated origin: set <code>IE_PROXY_ORIGIN</code> (e.g. <code>https://ieproxy.ryo.lu</code>) and the app redirects proxy navigations to that host, where upstream scripts are kept so script-heavy sites work. See <a href="/docs/self-hosting-vps">Self-hosting</a> for DNS / Coolify steps.</li></ul>
 <h3>State Management</h3>
 Internet Explorer utilizes Zustand for its global state management. This includes managing the current URL, selected year, browsing history, user favorites, and settings related to AI generation and display. Local component state is used for UI interactions within individual components.
 <h2>Related Apps</h2>

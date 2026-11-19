@@ -884,8 +884,12 @@ function validateEnv(): void {
 
   const optional: { name: string; description: string }[] = [
     {
+      name: "GROQ_API_KEY",
+      description: "Groq API key (speech-to-text, whisper-large-v3)",
+    },
+    {
       name: "OPENAI_API_KEY",
-      description: "OpenAI API key (AI + transcription)",
+      description: "OpenAI API key (OpenAI models, TTS; transcription fallback)",
     },
     { name: "ELEVENLABS_API_KEY", description: "ElevenLabs API key (TTS)" },
     { name: "YOUTUBE_API_KEY", description: "YouTube Data API key" },

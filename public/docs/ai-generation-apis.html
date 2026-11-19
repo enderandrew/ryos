@@ -379,6 +379,7 @@
     <a href="/docs/stuff" class="nav-child ">2.29 Stuff</a>
     <a href="/docs/dictionary" class="nav-child ">2.30 Dictionary</a>
     <a href="/docs/fitness" class="nav-child ">2.31 Fitness</a>
+    <a href="/docs/journal" class="nav-child ">2.32 Journal</a>
   </div>
 </div>
 <div class="nav-group ">
@@ -530,7 +531,7 @@
 <table><thead><tr><th>Header</th><th>Description</th></tr></thead><tbody><tr><td><code>Content-Type</code></td><td>Image MIME type (e.g., <code>image/png</code>)</td></tr><tr><td><code>X-Image-Description</code></td><td>Optional description of generated image</td></tr></tbody></table>
 <h3>Rate Limits</h3>
 <table><thead><tr><th>User Type</th><th>Text Requests</th><th>Image Requests</th><th>Window</th></tr></thead><tbody><tr><td>Anonymous</td><td>15/hour</td><td>1/hour</td><td>1 hour</td></tr><tr><td>Authenticated</td><td>50/hour</td><td>12/hour</td><td>1 hour</td></tr></tbody></table>
-<p>Note: The main Chat API (<code>/api/chat</code>) has separate rate limits: 15 messages per 5 hours for authenticated users, 3 messages per 24 hours for anonymous users.</p>
+<p>Note: The main Chat API (<code>/api/chat</code>) has separate rate limits: 15 messages per 5 hours for authenticated users, 3 messages per 24 hours for anonymous users. Nudges and the desktop-assistant summon count toward that quota.</p>
 <p>Rate limit headers included in responses: <ul><li><code>X-RateLimit-Limit</code>: Maximum requests allowed</li></ul><ul><li><code>X-RateLimit-Remaining</code>: Requests remaining</li><li><code>X-RateLimit-Reset</code>: Seconds until reset</li><li><code>Retry-After</code>: Seconds to wait (on 429)</li></ul></p>
 <h3>Models</h3>
 <ul><li><strong>Text</strong>: <code>gemini-3.5-flash-lite</code> (<code>thinkingLevel: "low"</code>; temperature is ignored)</li></ul><ul><li><strong>Image</strong>: <code>gemini-nano-banana-2.1</code></li></ul>
@@ -623,7 +624,7 @@
 <h3>Rate Limits</h3>
 <table><thead><tr><th>Scope</th><th>Limit</th><th>Window</th></tr></thead><tbody><tr><td>Burst</td><td>3 requests</td><td>1 minute</td></tr><tr><td>Budget</td><td>10 requests</td><td>5 hours</td></tr></tbody></table>
 <h3>Supported Models</h3>
-<table><thead><tr><th>Model</th><th>Provider</th></tr></thead><tbody><tr><td><code>gpt-6</code> (default, API: <code>gpt-6-astra</code>)</td><td>OpenAI</td></tr><tr><td><code>gpt-5.5</code></td><td>OpenAI</td></tr><tr><td><code>sonnet-4.6</code></td><td>Anthropic</td></tr><tr><td><code>opus-5.5</code> (API: <code>claude-opus-5-5</code>, ryo + debug only)</td><td>Anthropic</td></tr><tr><td><code>gemini-3.6-flash</code></td><td>Google</td></tr><tr><td><code>gemini-3.8-flash</code></td><td>Google</td></tr><tr><td><code>gemini-3.1-pro-preview</code></td><td>Google</td></tr></tbody></table>
+<table><thead><tr><th>Model</th><th>Provider</th></tr></thead><tbody><tr><td><code>gpt-6</code> (default, API: <code>gpt-6-luna</code>)</td><td>OpenAI</td></tr><tr><td><code>gpt-6.1-sol</code> (ryo only)</td><td>OpenAI</td></tr><tr><td><code>gpt-5.5</code></td><td>OpenAI</td></tr><tr><td><code>sonnet-5.5</code> (API: <code>claude-sonnet-5-5</code>, ryo only)</td><td>Anthropic</td></tr><tr><td><code>opus-5.5</code> (API: <code>claude-opus-5-5</code>, ryo + debug only)</td><td>Anthropic</td></tr><tr><td><code>gemini-3.6-flash</code></td><td>Google</td></tr><tr><td><code>gemini-3.8-flash</code></td><td>Google</td></tr><tr><td><code>gemini-3.1-pro-preview</code></td><td>Google</td></tr></tbody></table>
 <h3>Design Guidelines</h3>
 <p>The AI applies different design principles based on the target year:</p>
 <strong>Future Years</strong> (after current year):
@@ -697,38 +698,9 @@
 <h3>Error Responses</h3>
 <table><thead><tr><th>Status</th><th>Error</th><th>Description</th></tr></thead><tbody><tr><td>400</td><td><code>No title provided</code></td><td>Missing or invalid title field</td></tr><tr><td>403</td><td><code>Unauthorized</code></td><td>Origin not allowed</td></tr><tr><td>405</td><td><code>Method not allowed</code></td><td>Non-POST request</td></tr><tr><td>429</td><td><code>rate_limit_exceeded</code></td><td>Burst or daily limit exceeded</td></tr><tr><td>500</td><td><code>Error parsing title</code></td><td>AI parsing failed</td></tr></tbody></table>
 <hr>
-<h2>Memory Extraction Endpoints</h2>
-<p>These endpoints support ryOS memory features (daily notes + long-term memory).</p>
-<h3>Endpoint Summary</h3>
-<table><thead><tr><th>Method</th><th>Path</th><th>Description</th><th>Auth</th></tr></thead><tbody><tr><td>POST</td><td><code>/api/ai/extract-memories</code></td><td>Extract daily notes + long-term memories from chat conversation</td><td>Required</td></tr><tr><td>POST</td><td><code>/api/ai/process-daily-notes</code></td><td>Process unprocessed past daily notes into long-term memories</td><td>Required</td></tr></tbody></table>
-<h3>POST /api/ai/extract-memories</h3>
-<p>Request body:</p>
-<pre><code>{
-  "messages": [{ "role": "user", "content": "..." }],
-  "timeZone": "America/Los_Angeles"
-}</code></pre>
-<p>Response:</p>
-<pre><code>{
-  "extracted": 2,
-  "dailyNotes": 4,
-  "analyzed": 3,
-  "message": "Logged 4 daily notes, extracted 2 long-term memories"
-}</code></pre>
-<h3>POST /api/ai/process-daily-notes</h3>
-<p>Request body (optional):</p>
-<pre><code>{
-  "timeZone": "America/Los_Angeles"
-}</code></pre>
-<p>Response:</p>
-<pre><code>{
-  "processed": 3,
-  "extracted": 2,
-  "created": 1,
-  "updated": 1,
-  "dates": ["2026-02-26", "2026-02-27", "2026-02-28"],
-  "skippedDates": [],
-  "message": "Processed 3 daily notes → 1 new memories, 1 updated"
-}</code></pre>
+<h2>Memory Extraction (server-side helpers)</h2>
+<p>Memory extraction is <strong>not</strong> exposed as public HTTP routes. The helpers live in <code><a href="https://github.com/ryokun6/ryos/blob/main/api/ai/extract-memories.ts" target="_blank" rel="noopener noreferrer" style="color: var(--doc-link); text-decoration: underline;">api/ai/extract-memories.ts</a></code> (<code>extractMemoriesFromConversation</code>) and <code><a href="https://github.com/ryokun6/ryos/blob/main/api/ai/process-daily-notes.ts" target="_blank" rel="noopener noreferrer" style="color: var(--doc-link); text-decoration: underline;">api/ai/process-daily-notes.ts</a></code> (<code>processDailyNotesForUser</code>) and are invoked only from trusted server paths:</p>
+<table><thead><tr><th>Trigger</th><th>Helper</th></tr></thead><tbody><tr><td><code>POST /api/ai/conversations/:channel/reset</code> (chat clear)</td><td><code>extractMemoriesFromConversation</code> via <code>processClearedAIConversationMemory</code></td></tr><tr><td><code>POST /api/ai/conversations/:channel/greeting</code></td><td><code>processDailyNotesForUser</code> (background)</td></tr><tr><td><code>GET/POST /api/cron/telegram-heartbeat</code></td><td>both helpers</td></tr><tr><td>Admin force-reprocess daily notes</td><td><code>processDailyNotesForUser</code></td></tr></tbody></table>
 <hr>
 <h2>Cursor Cloud Agent Endpoints</h2>
 <p>These endpoints back the chat's Cursor Cloud "repo agent" tool, which runs coding agents asynchronously and streams their events. Both require authentication and are restricted to the admin account (<code>ryo</code>); others receive <code>403</code>.</p>

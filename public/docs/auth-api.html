@@ -379,6 +379,7 @@
     <a href="/docs/stuff" class="nav-child ">2.29 Stuff</a>
     <a href="/docs/dictionary" class="nav-child ">2.30 Dictionary</a>
     <a href="/docs/fitness" class="nav-child ">2.31 Fitness</a>
+    <a href="/docs/journal" class="nav-child ">2.32 Journal</a>
   </div>
 </div>
 <div class="nav-group ">
@@ -509,7 +510,10 @@ Content-Type: application/json
 <pre><code>{
   "user": { "username": "alice" }
 }</code></pre>
-<p>An httpOnly session cookie is set via <code>Set-Cookie</code>.</p>
+<p>An httpOnly session cookie is set via <code>Set-Cookie</code>. The response also sets <code>ryos_device</code> (<code>Path=/api</code>, 1 year), an httpOnly device id used to block repeat signups from the same browser.</p>
+<p>Registration limits:</p>
+<table><thead><tr><th>Scope</th><th>Limit</th><th>What happens when exceeded</th></tr></thead><tbody><tr><td>Attempts per IP</td><td>20 per 6 hours</td><td>24-hour block. Covers invalid bodies and the existing-user login path</td></tr><tr><td>New accounts per IP</td><td>2 per 7 days</td><td>14-day block</td></tr><tr><td>New accounts per device</td><td>1 per 30 days</td><td>30-day block on that <code>ryos_device</code> cookie</td></tr></tbody></table>
+<p>Logging into an existing username does not consume a new-account slot. Discarding the device cookie does not reset the IP cap.</p>
 <strong>Response (200, existing account, password matches):</strong>
 <pre><code>{
   "user": { "username": "alice" }

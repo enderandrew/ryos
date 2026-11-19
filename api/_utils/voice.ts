@@ -5,7 +5,54 @@ import { toFile } from "openai/uploads";
 export const DEFAULT_TTS_MODEL = "elevenlabs";
 export const DEFAULT_OPENAI_TTS_VOICE = "alloy";
 export const DEFAULT_OPENAI_TTS_SPEED = 1.1;
+/**
+ * Speech-to-text goes to Groq when GROQ_API_KEY is set (Groq's endpoint is
+ * OpenAI-compatible, so the same SDK talks to it), otherwise to OpenAI.
+ * whisper-large-v3 is Groq-hosted; OpenAI only serves whisper-1.
+ */
+export const GROQ_OPENAI_BASE_URL = "https://api.groq.com/openai/v1";
 export const DEFAULT_TRANSCRIPTION_MODEL = "whisper-large-v3";
+export const OPENAI_TRANSCRIPTION_MODEL = "whisper-1";
+
+export type TranscriptionProvider = "groq" | "openai";
+
+export interface TranscriptionTarget {
+  provider: TranscriptionProvider;
+  apiKey: string;
+  baseURL?: string;
+  model: string;
+}
+
+/** Groq first, OpenAI as the alternative; null when neither key is set. */
+export function resolveTranscriptionTarget(
+  env: NodeJS.ProcessEnv = process.env
+): TranscriptionTarget | null {
+  const groqKey = env.GROQ_API_KEY?.trim();
+  if (groqKey) {
+    return {
+      provider: "groq",
+      apiKey: groqKey,
+      baseURL: GROQ_OPENAI_BASE_URL,
+      model: DEFAULT_TRANSCRIPTION_MODEL,
+    };
+  }
+  const openaiKey = env.OPENAI_API_KEY?.trim();
+  if (openaiKey) {
+    return {
+      provider: "openai",
+      apiKey: openaiKey,
+      model: OPENAI_TRANSCRIPTION_MODEL,
+    };
+  }
+  return null;
+}
+
+export class TranscriptionNotConfiguredError extends Error {
+  constructor() {
+    super("Transcription is not configured: set GROQ_API_KEY or OPENAI_API_KEY");
+    this.name = "TranscriptionNotConfiguredError";
+  }
+}
 
 export const DEFAULT_ELEVENLABS_VOICE_ID = "OHP6tMHkOsRKrsDdbPah"; // Ryo PVC
 export const DEFAULT_ELEVENLABS_MODEL_ID = "eleven_turbo_v2_5"; // 2.5 turbo
@@ -33,16 +80,21 @@ export interface ElevenLabsVoiceSettings {
   speed?: number;
 }
 
-let openai: OpenAI | null = null;
+const transcriptionClients = new Map<string, OpenAI>();
 
-function getOpenAIClient(): OpenAI {
-  openai ??= new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-  return openai;
+function getTranscriptionClient(target: TranscriptionTarget): OpenAI {
+  const cacheKey = `${target.provider}:${target.apiKey}`;
+  let client = transcriptionClients.get(cacheKey);
+  if (!client) {
+    client = new OpenAI({ apiKey: target.apiKey, baseURL: target.baseURL });
+    transcriptionClients.set(cacheKey, client);
+  }
+  return client;
 }
 
 type TranscribeAudioBufferDeps = {
+  /** Environment to resolve the provider from (tests). Defaults to process.env. */
+  env?: NodeJS.ProcessEnv;
   toFileImpl?: typeof toFile;
   createTranscription?: (options: {
     file: Awaited<ReturnType<typeof toFile>>;
@@ -54,7 +106,7 @@ export async function transcribeAudioBuffer({
   buffer,
   fileName,
   mimeType,
-  model = DEFAULT_TRANSCRIPTION_MODEL,
+  model,
   deps = {},
 }: {
   buffer: Uint8Array | Buffer | ArrayBuffer;
@@ -64,17 +116,18 @@ export async function transcribeAudioBuffer({
   deps?: TranscribeAudioBufferDeps;
 }): Promise<string> {
   const toFileImpl = deps.toFileImpl ?? toFile;
-  const createTranscription =
-    deps.createTranscription ??
-    ((options: {
-      file: Awaited<ReturnType<typeof toFile>>;
-      model: string;
-    }) => getOpenAIClient().audio.transcriptions.create(options));
+  const target = resolveTranscriptionTarget(deps.env ?? process.env);
+  let createTranscription = deps.createTranscription;
+  if (!createTranscription) {
+    if (!target) throw new TranscriptionNotConfiguredError();
+    const client = getTranscriptionClient(target);
+    createTranscription = (options) => client.audio.transcriptions.create(options);
+  }
 
   const file = await toFileImpl(buffer, fileName, { type: mimeType });
   const transcription = await createTranscription({
     file,
-    model,
+    model: model ?? target?.model ?? DEFAULT_TRANSCRIPTION_MODEL,
   });
 
   return transcription.text;
