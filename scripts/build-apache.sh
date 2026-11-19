@@ -47,6 +47,10 @@ Options
                       addition to itself (e.g. "https://example.com")
   --print-vhost HOST [DOCROOT]
                       print an example Apache VirtualHost for HOST and exit
+  --print-ieproxy-vhost HOST [BACKEND]
+                      print an Apache VirtualHost for the isolated Internet
+                      Explorer proxy host (IE_PROXY_ORIGIN) and exit;
+                      BACKEND defaults to http://127.0.0.1:3000
   --typecheck         also run the TypeScript typecheck (slower)
   --skip-install      do not run `bun install`
   --no-htaccess       do not write dist/.htaccess
@@ -63,6 +67,8 @@ SKIP_INSTALL=0
 WRITE_HTACCESS=1
 VHOST_HOST=""
 VHOST_DOCROOT=""
+IEPROXY_HOST=""
+IEPROXY_BACKEND="http://127.0.0.1:3000"
 MARKER=".ryos-apache-deploy"
 
 while [[ $# -gt 0 ]]; do
@@ -74,6 +80,9 @@ while [[ $# -gt 0 ]]; do
     --print-vhost)
       VHOST_HOST="${2:?--print-vhost needs a hostname}"; shift 2
       if [[ $# -gt 0 && "$1" != -* ]]; then VHOST_DOCROOT="$1"; shift; fi ;;
+    --print-ieproxy-vhost)
+      IEPROXY_HOST="${2:?--print-ieproxy-vhost needs a hostname}"; shift 2
+      if [[ $# -gt 0 && "$1" != -* ]]; then IEPROXY_BACKEND="${1%/}"; shift; fi ;;
     --typecheck) TYPECHECK=1; shift ;;
     --skip-install) SKIP_INSTALL=1; shift ;;
     --no-htaccess) WRITE_HTACCESS=0; shift ;;
@@ -105,10 +114,46 @@ if [[ -n "$VHOST_HOST" ]]; then
   # This cannot be fixed from .htaccess; this line takes the path back.
   Alias /icons/ $docroot/icons/
 
+  # Pass the real Host to the Bun backend for the proxied /api, /ws and
+  # /app-config.js requests (only matters with --api-proxy).
+  ProxyPreserveHost On
+
   <Directory $docroot>
     AllowOverride All
     Require all granted
   </Directory>
+</VirtualHost>
+EOF
+  exit 0
+fi
+
+# ------------------------------------------------- example IE proxy vhost
+if [[ -n "$IEPROXY_HOST" ]]; then
+  cat <<EOF
+# Isolated host for Internet Explorer proxied pages. With it, IE keeps the
+# scripts of the sites it shows; without it they are stripped for safety.
+#
+# 1. DNS: point $IEPROXY_HOST at this server (same A/AAAA or a CNAME).
+# 2. Save this as /etc/apache2/sites-available/$IEPROXY_HOST.conf, then:
+#      a2enmod proxy proxy_http headers && a2ensite $IEPROXY_HOST
+#      systemctl reload apache2 && certbot --apache -d $IEPROXY_HOST
+# 3. Add to /etc/ryos/ryos.env and restart:
+#      IE_PROXY_ORIGIN=https://$IEPROXY_HOST
+#      systemctl restart ryos-api
+#
+# The Bun server itself limits this host to /api/iframe-check, /health and
+# /fonts/, and the ryOS login cookie is never sent here (it is host-only).
+<VirtualHost *:80>
+  ServerName $IEPROXY_HOST
+
+  # REQUIRED: the server recognizes the proxy host by its Host header.
+  # Without this it sees 127.0.0.1, treats the request as the main site,
+  # and redirects back to $IEPROXY_HOST forever.
+  ProxyPreserveHost On
+  RequestHeader set X-Forwarded-Proto "https" env=HTTPS
+
+  ProxyPass        / $IEPROXY_BACKEND/
+  ProxyPassReverse / $IEPROXY_BACKEND/
 </VirtualHost>
 EOF
   exit 0

@@ -50,7 +50,7 @@ afterAll(() => {
 
 function setProduction(proxyOrigin: string | null) {
   process.env.API_RUNTIME_ENV = "production";
-  process.env.API_ALLOWED_ORIGINS = "*.ryo.lu,https://ryo.lu"; // pragma: allowlist secret
+  process.env.API_ALLOWED_ORIGINS = "*.ryo.lu,https://ryo.lu,*.enderandrew.com"; // pragma: allowlist secret
   process.env.APP_PUBLIC_ORIGIN = "https://mac.enderandrew.com";
   if (proxyOrigin) process.env.IE_PROXY_ORIGIN = proxyOrigin;
   else delete process.env.IE_PROXY_ORIGIN;
