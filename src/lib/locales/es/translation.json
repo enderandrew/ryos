@@ -5613,6 +5613,41 @@
         "unknownArtist": "Artista desconocido"
       },
       "title": "Winamp"
+    },
+    "oregon-trail": {
+      "name": "Oregon Trail",
+      "description": "Haul a wagon west, 1848",
+      "menu": {
+        "newTrip": "New Trip",
+        "help": "Oregon Trail Help",
+        "about": "About Oregon Trail"
+      },
+      "help": {
+        "outfitWagon": {
+          "title": "Outfit Your Wagon",
+          "description": "Spend your starting cash at Matt's General Store — oxen, food, clothing, ammunition and spare parts"
+        },
+        "setPace": {
+          "title": "Set the Pace",
+          "description": "A steady pace saves your party; a grueling one saves days but costs health"
+        },
+        "fordRivers": {
+          "title": "Ford the Rivers",
+          "description": "Ford, caulk the wagon, or pay the ferry — guess wrong and you lose supplies or people"
+        },
+        "hunt": {
+          "title": "Hunt for Food",
+          "description": "Shoot bison and rabbits, but you can only carry so much meat back"
+        },
+        "progressSaved": {
+          "title": "Progress Is Saved",
+          "description": "The game keeps your trip in browser storage, so you can close the window and pick it up later"
+        },
+        "dysentery": {
+          "title": "You Have Died of Dysentery",
+          "description": "It happens. Start a fresh trip from File ▸ New Trip"
+        }
+      }
     }
   },
   "common": {

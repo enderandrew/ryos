@@ -1812,6 +1812,10 @@
     "journal": {
       "name": "Journal",
       "description": "Keep the same days in two shapes"
+    },
+    "oregon-trail": {
+      "name": "Oregon Trail",
+      "description": "Haul a wagon west, 1848"
     }
   }
 }
