@@ -1987,8 +1987,8 @@
       "nameForMacosX": "系统偏好设置",
       "noMatchingPreferences": "没有匹配的偏好设置",
       "noWallpapers": "没有背景图片",
-      "openai": "OpenAI",
-      "openaiVoice": "OpenAI 语音",
+      "openai": "Groq",
+      "openaiVoice": "Groq 语音",
       "panes": {
         "accounts": "账户",
         "appearance": "外观",
@@ -2220,7 +2220,13 @@
         "ryoPvc": "Ryo PVC",
         "ryoV2": "Ryo v2",
         "ryoV3": "Ryo v3",
-        "shimmer": "Shimmer"
+        "shimmer": "Shimmer",
+        "troy": "Troy",
+        "austin": "Austin",
+        "daniel": "Daniel",
+        "autumn": "Autumn",
+        "diana": "Diana",
+        "hannah": "Hannah"
       },
       "ui": "用户界面",
       "uiSounds": "UI 音效",

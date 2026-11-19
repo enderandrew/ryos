@@ -1989,8 +1989,8 @@
       "nameForMacosX": "Préférences Système",
       "noMatchingPreferences": "Aucune préférence correspondante",
       "noWallpapers": "Aucun fond d’écran",
-      "openai": "OpenAI",
-      "openaiVoice": "Voix OpenAI",
+      "openai": "Groq",
+      "openaiVoice": "Voix Groq",
       "panes": {
         "accounts": "Comptes",
         "appearance": "Apparence",
@@ -2222,7 +2222,13 @@
         "ryoPvc": "Ryo PVC",
         "ryoV2": "Ryo v2",
         "ryoV3": "Ryo v3",
-        "shimmer": "Scintillement"
+        "shimmer": "Scintillement",
+        "troy": "Troy",
+        "austin": "Austin",
+        "daniel": "Daniel",
+        "autumn": "Autumn",
+        "diana": "Diana",
+        "hannah": "Hannah"
       },
       "ui": "Interface utilisateur",
       "uiSounds": "Sons de l’interface utilisateur",

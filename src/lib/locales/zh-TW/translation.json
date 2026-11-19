@@ -1987,8 +1987,8 @@
       "nameForMacosX": "系統偏好設定",
       "noMatchingPreferences": "沒有相符的偏好設定",
       "noWallpapers": "沒有背景圖片",
-      "openai": "OpenAI",
-      "openaiVoice": "OpenAI 語音",
+      "openai": "Groq",
+      "openaiVoice": "Groq 語音",
       "panes": {
         "accounts": "帳號",
         "appearance": "外觀",
@@ -2220,7 +2220,13 @@
         "ryoPvc": "Ryo PVC",
         "ryoV2": "Ryo v2",
         "ryoV3": "Ryo v3",
-        "shimmer": "微光"
+        "shimmer": "微光",
+        "troy": "Troy",
+        "austin": "Austin",
+        "daniel": "Daniel",
+        "autumn": "Autumn",
+        "diana": "Diana",
+        "hannah": "Hannah"
       },
       "ui": "使用者介面",
       "uiSounds": "UI 音效",

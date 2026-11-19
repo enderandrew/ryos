@@ -3420,11 +3420,11 @@
       "default": "Default",
       "ttsModel": "TTS Model",
       "ttsModelDescription": "Ryo chat only. Other apps use the system voice.",
-      "openai": "OpenAI",
+      "openai": "Groq",
       "elevenlabs": "ElevenLabs",
       "ttsVoice": "TTS Voice",
       "elevenlabsVoiceId": "ElevenLabs Voice ID",
-      "openaiVoice": "OpenAI Voice",
+      "openaiVoice": "Groq Voice",
       "ttsVoices": {
         "ryo": "Ryo",
         "ryoV2": "Ryo v2",
@@ -3436,7 +3436,13 @@
         "fable": "Fable",
         "onyx": "Onyx",
         "nova": "Nova",
-        "shimmer": "Shimmer"
+        "shimmer": "Shimmer",
+        "troy": "Troy",
+        "austin": "Austin",
+        "daniel": "Daniel",
+        "autumn": "Autumn",
+        "diana": "Diana",
+        "hannah": "Hannah"
       },
       "bootScreen": "Boot Screen",
       "bootScreenDescription": "Test the boot screen animation",

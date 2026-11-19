@@ -35,6 +35,22 @@ export function getSpeechPlaybackVolume(
   return speechVolume * masterVolume * getTtsPlaybackGain(model, voiceId);
 }
 
+/**
+ * Groq Orpheus voices. The setting is still stored as `ttsModel: "openai"`
+ * (for saved preferences); the server sends that slot to Groq when
+ * GROQ_API_KEY is set and maps any voice it doesn't know to its default.
+ * Keep in sync with GROQ_TTS_VOICES in api/_utils/groq-speech.ts.
+ */
+export const GROQ_TTS_VOICES = [
+  { value: "troy", labelKey: "apps.control-panels.ttsVoices.troy" },
+  { value: "austin", labelKey: "apps.control-panels.ttsVoices.austin" },
+  { value: "daniel", labelKey: "apps.control-panels.ttsVoices.daniel" },
+  { value: "autumn", labelKey: "apps.control-panels.ttsVoices.autumn" },
+  { value: "diana", labelKey: "apps.control-panels.ttsVoices.diana" },
+  { value: "hannah", labelKey: "apps.control-panels.ttsVoices.hannah" },
+] as const;
+
+/** OpenAI tts-1 voices, used only when the server has no Groq key. */
 export const OPENAI_TTS_VOICES = [
   { value: "alloy", labelKey: "apps.control-panels.ttsVoices.alloy" },
   { value: "echo", labelKey: "apps.control-panels.ttsVoices.echo" },
@@ -51,8 +67,10 @@ export function getTtsVoiceLabel(
   selectLabel: string
 ): string {
   if (!voiceId) return selectLabel;
-  const voices =
-    model === "elevenlabs" ? ELEVENLABS_TTS_VOICES : OPENAI_TTS_VOICES;
+  const voices: ReadonlyArray<{ value: string; labelKey: string }> =
+    model === "elevenlabs"
+      ? ELEVENLABS_TTS_VOICES
+      : [...GROQ_TTS_VOICES, ...OPENAI_TTS_VOICES];
   const match = voices.find((voice) => voice.value === voiceId);
   return match ? t(match.labelKey) : selectLabel;
 }

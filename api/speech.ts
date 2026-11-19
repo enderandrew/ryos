@@ -9,6 +9,11 @@ import {
 } from "./_utils/speech-policy.js";
 import { consumeSpeechPermit } from "./_utils/speech-permit-store.js";
 import {
+  GroqSpeechError,
+  generateGroqSpeech,
+  isGroqSpeechConfigured,
+} from "./_utils/groq-speech.js";
+import {
   SPEECH_PERMIT_ERRORS,
   resolveSpeechOwner,
 } from "./_utils/speech-permit.js";
@@ -29,6 +34,16 @@ import {
 
 /** OpenAI `tts-1` rejects longer input; enforce it before spending a call. */
 export const OPENAI_TTS_MAX_CHARS = 4096;
+
+/** Voices OpenAI tts-1 accepts; anything else (e.g. a Groq voice) uses the default. */
+const OPENAI_TTS_VOICE_NAMES = new Set([
+  "alloy",
+  "echo",
+  "fable",
+  "onyx",
+  "nova",
+  "shimmer",
+]);
 
 interface SpeechRequest {
   text?: string;
@@ -263,7 +278,17 @@ export default apiHandler<SpeechRequest>(
       let audioData: ArrayBuffer;
       let mimeType = "audio/mpeg";
 
-      const selectedModel = model || DEFAULT_TTS_MODEL;
+      let selectedModel = model || DEFAULT_TTS_MODEL;
+      // Without an ElevenLabs key, give Ryo a voice through the Groq/OpenAI
+      // slot instead of answering 503 (and staying silent).
+      if (
+        selectedModel === "elevenlabs" &&
+        !process.env.ELEVENLABS_API_KEY &&
+        (isGroqSpeechConfigured() || process.env.OPENAI_API_KEY)
+      ) {
+        logger.info("ElevenLabs not configured; using the Groq/OpenAI voice");
+        selectedModel = "openai";
+      }
 
       if (selectedModel === "elevenlabs") {
         if (!process.env.ELEVENLABS_API_KEY) {
@@ -332,21 +357,39 @@ export default apiHandler<SpeechRequest>(
           });
           return;
         }
-        const openaiVoice = voice || DEFAULT_OPENAI_TTS_VOICE;
-        const { audio } = await generateSpeech({
-          model: openai.speech("tts-1"),
-          text: synthesisText,
-          voice: openaiVoice,
-          outputFormat: "mp3",
-          speed: speed ?? DEFAULT_OPENAI_TTS_SPEED,
-        });
+        if (isGroqSpeechConfigured()) {
+          // The "openai" slot is served by Groq Orpheus when a Groq key exists.
+          const groqSpeech = await generateGroqSpeech({
+            text: synthesisText,
+            voice,
+          });
+          audioData = groqSpeech.audio.slice().buffer;
+          mimeType = groqSpeech.mimeType;
+          logger.info("Groq speech generated", {
+            bytes: audioData.byteLength,
+            voice: groqSpeech.voice,
+            pieces: groqSpeech.pieces,
+          });
+        } else {
+          const openaiVoice =
+            voice && OPENAI_TTS_VOICE_NAMES.has(voice)
+              ? voice
+              : DEFAULT_OPENAI_TTS_VOICE;
+          const { audio } = await generateSpeech({
+            model: openai.speech("tts-1"),
+            text: synthesisText,
+            voice: openaiVoice,
+            outputFormat: "mp3",
+            speed: speed ?? DEFAULT_OPENAI_TTS_SPEED,
+          });
 
-        audioData = audio.uint8Array.slice().buffer;
-        mimeType = audio.mediaType ?? "audio/mpeg";
-        logger.info("OpenAI speech generated", {
-          bytes: audioData.byteLength,
-          voice: openaiVoice,
-        });
+          audioData = audio.uint8Array.slice().buffer;
+          mimeType = audio.mediaType ?? "audio/mpeg";
+          logger.info("OpenAI speech generated", {
+            bytes: audioData.byteLength,
+            voice: openaiVoice,
+          });
+        }
       }
 
       const buffer = Buffer.from(audioData);
@@ -362,7 +405,9 @@ export default apiHandler<SpeechRequest>(
         error instanceof Error ? error.message : "Failed to generate speech";
 
       const status =
-        typeof message === "string" && message.includes("ElevenLabs API key not configured")
+        (error instanceof GroqSpeechError && error.status === 503) ||
+        (typeof message === "string" &&
+          message.includes("ElevenLabs API key not configured"))
           ? 503
           : 500;
 

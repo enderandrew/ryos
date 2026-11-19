@@ -249,6 +249,6 @@ When running via `scripts/api-standalone-server.ts`:
 | Provider | Models |
 |----------|--------|
 | OpenAI | gpt-6 (gpt-6-luna), gpt-6.1-sol (ryo only), gpt-5.5, tts-1, whisper-1 (transcription fallback) |
-| Groq | whisper-large-v3 (speech-to-text, preferred when `GROQ_API_KEY` is set) |
+| Groq | whisper-large-v3 (speech-to-text), canopylabs/orpheus-v1-english (text-to-speech), openai/gpt-oss-120b (song lyric translation, furigana, soramimi) — each preferred over OpenAI when `GROQ_API_KEY` is set |
 | Anthropic | sonnet-5.5 (claude-sonnet-5-5, ryo only), opus-5.5 (claude-opus-5-5, ryo + debug) |
 | Google | gemini-3.8-flash (default), gemini-3.6-flash, gemini-3.1-pro-preview, gemini-3.5-flash-lite, gemini-nano-banana-2.1 |
