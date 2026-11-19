@@ -10,7 +10,7 @@ import {
 function authError(statusCode = 401): APICallError {
   return new APICallError({
     message: "Incorrect API key provided: sk-testsecretvalue",
-    url: "https://api.openai.com/v1/responses",
+    url: "https://api.groq.com/openai/v1",
     requestBodyValues: {},
     statusCode,
     responseBody: '{"error":{"code":"invalid_api_key"}}',
@@ -28,7 +28,7 @@ describe("provider auth errors", () => {
       isProviderAuthError(
         new APICallError({
           message: "overloaded",
-          url: "https://api.openai.com/v1/responses",
+          url: "https://api.groq.com/openai/v1",
           requestBodyValues: {},
           statusCode: 500,
         })
