@@ -100,14 +100,14 @@ describe("TextEdit Markdown paste detection", () => {
 const ready = true;
 \`\`\`
 
-[ryOS](https://os.ryo.lu)`;
+[ryOS](https://mac.enderandrew.com)`;
 
     expect(isMeaningfulMarkdown(markdown)).toBe(true);
     const html = markdownToSafeHtml(markdown);
     expect(html).toContain("<ul>");
     expect(html).toContain("<blockquote>");
     expect(html).toContain("<pre><code>");
-    expect(html).toContain('href="https://os.ryo.lu"');
+    expect(html).toContain('href="https://mac.enderandrew.com"');
   });
 
   test("does not override a clipboard's existing rich HTML", () => {
@@ -163,12 +163,12 @@ const ready = true;
     try {
       editor.commands.setTextSelection(editor.state.doc.content.size);
       const data = new DataTransfer();
-      data.setData("text/plain", "[ryOS](https://os.ryo.lu)");
+      data.setData("text/plain", "[ryOS](https://mac.enderandrew.com)");
       const event = new ClipboardEvent("paste", { clipboardData: data });
 
       expect(handleMarkdownPaste(editor.view, event)).toBe(true);
       expect(editor.getHTML()).toBe(
-        '<p>Visit:<a target="_blank" rel="noopener noreferrer nofollow" href="https://os.ryo.lu">ryOS</a></p>'
+        '<p>Visit:<a target="_blank" rel="noopener noreferrer nofollow" href="https://mac.enderandrew.com">ryOS</a></p>'
       );
     } finally {
       editor.destroy();
@@ -186,7 +186,7 @@ describe("TextEdit Markdown paste security and persistence", () => {
 
 [unsafe](javascript:alert('markdown'))
 [data](data:text/html;base64,PHNjcmlwdD4=)
-[safe](https://os.ryo.lu)`);
+[safe](https://mac.enderandrew.com)`);
 
     expect(html).not.toContain("<script");
     expect(html).not.toContain("<img");
@@ -194,7 +194,7 @@ describe("TextEdit Markdown paste security and persistence", () => {
     expect(html).not.toContain("onclick");
     expect(html).not.toContain("javascript:");
     expect(html).not.toContain("data:text/html");
-    expect(html).toContain('href="https://os.ryo.lu"');
+    expect(html).toContain('href="https://mac.enderandrew.com"');
   });
 
   test("converts tables into TipTap JSON and round-trips rich metadata", async () => {
@@ -230,7 +230,7 @@ describe("AI tool markdown-to-editor pipeline", () => {
 | --- | --- |
 | Alice | 30 |
 
-Visit the [ryOS site](https://os.ryo.lu) for more.`;
+Visit the [ryOS site](https://mac.enderandrew.com) for more.`;
 
   test("AI markdown renders tables and links as rich editor content", async () => {
     const editorJson = await generateJsonFromHtml(
@@ -241,7 +241,7 @@ Visit the [ryOS site](https://os.ryo.lu) for more.`;
 
     const json = JSON.stringify(editorJson);
     expect(json).toContain('"type":"link"');
-    expect(json).toContain("https://os.ryo.lu");
+    expect(json).toContain("https://mac.enderandrew.com");
   });
 
   test("GFM markdown round-trips through the editor HTML pipeline", async () => {
@@ -255,7 +255,7 @@ Visit the [ryOS site](https://os.ryo.lu) for more.`;
     const bufferMarkdown = htmlToMarkdown(await generateHtmlFromJson(editorJson));
 
     expect(bufferMarkdown).toContain("| Name | Age |");
-    expect(bufferMarkdown).toContain("[ryOS site](https://os.ryo.lu)");
+    expect(bufferMarkdown).toContain("[ryOS site](https://mac.enderandrew.com)");
 
     const updatedMarkdown = bufferMarkdown.replace("Alice", "Bob");
     const updatedJson = await generateJsonFromHtml(

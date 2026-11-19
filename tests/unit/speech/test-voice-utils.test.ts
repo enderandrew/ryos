@@ -3,11 +3,16 @@ import {
   DEFAULT_ELEVENLABS_MODEL_ID,
   DEFAULT_ELEVENLABS_OUTPUT_FORMAT,
   DEFAULT_ELEVENLABS_VOICE_ID,
+  DEFAULT_TRANSCRIPTION_MODEL,
   DEFAULT_TTS_MODEL,
+  GROQ_OPENAI_BASE_URL,
+  OPENAI_TRANSCRIPTION_MODEL,
   STREAMING_ELEVENLABS_MODEL_ID,
+  TranscriptionNotConfiguredError,
   elevenLabsMimeType,
   generateElevenLabsSpeech,
   streamElevenLabsSpeech,
+  resolveTranscriptionTarget,
   transcribeAudioBuffer,
 } from "../../../api/_utils/voice";
 
@@ -24,13 +29,14 @@ describe("voice utils", () => {
       fileName: "telegram-voice.ogg",
       mimeType: "audio/ogg",
       deps: {
+        env: { GROQ_API_KEY: "gsk_test" },
         toFileImpl: async (buffer, name, options) => ({
           buffer,
           name,
           type: options?.type,
         }) as Awaited<ReturnType<typeof import("openai/uploads").toFile>>,
         createTranscription: async ({ file, model }) => {
-          expect(model).toBe("whisper-1");
+          expect(model).toBe("whisper-large-v3");
           expect((file as { name?: string }).name).toBe("telegram-voice.ogg");
           expect((file as { type?: string }).type).toBe("audio/ogg");
           return { text: "hello from voice" };
@@ -39,6 +45,41 @@ describe("voice utils", () => {
     });
 
     expect(result).toBe("hello from voice");
+  });
+
+  test("transcription prefers Groq whisper-large-v3 over OpenAI", () => {
+    expect(DEFAULT_TRANSCRIPTION_MODEL).toBe("whisper-large-v3");
+    expect(
+      resolveTranscriptionTarget({ GROQ_API_KEY: "gsk", OPENAI_API_KEY: "sk" })
+    ).toEqual({
+      provider: "groq",
+      apiKey: "gsk",
+      baseURL: GROQ_OPENAI_BASE_URL,
+      model: "whisper-large-v3",
+    });
+    expect(GROQ_OPENAI_BASE_URL).toBe("https://api.groq.com/openai/v1");
+  });
+
+  test("transcription falls back to OpenAI whisper-1 without a Groq key", () => {
+    expect(resolveTranscriptionTarget({ OPENAI_API_KEY: "sk" })).toEqual({
+      provider: "openai",
+      apiKey: "sk",
+      model: OPENAI_TRANSCRIPTION_MODEL,
+    });
+    expect(OPENAI_TRANSCRIPTION_MODEL).toBe("whisper-1");
+    expect(resolveTranscriptionTarget({ GROQ_API_KEY: "  " })).toBeNull();
+  });
+
+  test("transcription without any key fails with a typed error", async () => {
+    expect(resolveTranscriptionTarget({})).toBeNull();
+    await expect(
+      transcribeAudioBuffer({
+        buffer: new Uint8Array([1]),
+        fileName: "a.webm",
+        mimeType: "audio/webm",
+        deps: { env: {} },
+      })
+    ).rejects.toBeInstanceOf(TranscriptionNotConfiguredError);
   });
 
   test("generateElevenLabsSpeech uses the default voice configuration", async () => {

@@ -67,7 +67,7 @@ describe("placeholderKeyFromSource", () => {
   test("works for absolute URLs", () => {
     expect(
       placeholderKeyFromSource(
-        "https://os.ryo.lu/wallpapers/tiles/azul_dark.png"
+        "https://mac.enderandrew.com/wallpapers/tiles/azul_dark.png"
       )
     ).toBe("tiles/azul_dark.png");
   });
@@ -118,7 +118,7 @@ describe("thumbPathForSource", () => {
       "/wallpapers/thumbs/photos/nature/aurora.webp"
     );
     expect(
-      thumbPathForSource("https://os.ryo.lu/wallpapers/photos/aqua/0.png")
+      thumbPathForSource("https://mac.enderandrew.com/wallpapers/photos/aqua/0.png")
     ).toBe("/wallpapers/thumbs/photos/aqua/0.webp");
   });
 

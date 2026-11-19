@@ -36,7 +36,7 @@ describe("speech permit policy", () => {
   });
 
   test("isBoundSpeechChunk accepts cleaned slices of assistant text", () => {
-    const source = "Hello from Ryo.\nSee [docs](https://os.ryo.lu) later.";
+    const source = "Hello from Ryo.\nSee [docs](https://mac.enderandrew.com) later.";
     expect(isBoundSpeechChunk(source, "Hello from Ryo.")).toBe(true);
     expect(isBoundSpeechChunk(source, "See docs later.")).toBe(true);
     expect(isBoundSpeechChunk(source, "Send money now")).toBe(false);

@@ -175,7 +175,7 @@ describe("injected navigation interceptor", () => {
   const script = buildIeNavigationInterceptorScript({
     nonce: "n0nce",
     frameToken: "abcdefghijklmnop.1",
-    parentOrigin: "https://os.ryo.lu",
+    parentOrigin: "https://mac.enderandrew.com",
   });
 
   test("unwraps replay links before posting to the parent", () => {
@@ -219,7 +219,7 @@ describe("injected navigation interceptor", () => {
 
     const fakeWindow = {
       parent: realParent,
-      location: { href: "https://os.ryo.lu/api/iframe-check?url=1" },
+      location: { href: "https://mac.enderandrew.com/api/iframe-check?url=1" },
       document,
       addEventListener() {},
       setTimeout() {

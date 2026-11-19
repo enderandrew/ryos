@@ -3,7 +3,7 @@ import {
   validatePublicUrl,
 } from "../../_utils/_ssrf.js";
 
-const USER_AGENT = "ryOS-Stuff/1.0 (https://os.ryo.lu)";
+const USER_AGENT = "ryOS-Stuff/1.0 (https://mac.enderandrew.com)";
 const MAX_IMAGE_BYTES = 1.5 * 1024 * 1024;
 const FETCH_TIMEOUT_MS = 8000;
 

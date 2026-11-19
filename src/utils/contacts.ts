@@ -70,7 +70,7 @@ export const DEFAULT_RYO_CONTACT_DRAFT: ContactDraft = {
   lastName: "Lu",
   nickname: "ryo",
   emails: ["me@ryo.lu"],
-  urls: ["https://ryo.lu", "https://x.com/ryolu_", "https://os.ryo.lu"],
+  urls: ["https://ryo.lu", "https://x.com/ryolu_", "https://mac.enderandrew.com"],
   source: "manual",
 };
 const CONTACT_SOURCES: readonly ContactSource[] = [

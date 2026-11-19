@@ -76,7 +76,7 @@ Every cut, caption hit, title word and zoom is in **beats**, so it lands on the 
 - **Captions:** centred under the device. Within an app, the first caption **enters once**; each later step **rolls over in place** (`caption.change: "roll"`, 0.6 s). It never re-enters per cut.
 - **Camera:** steady. **At most one gentle zoom** per cut (×1.12 on the last Dictionary step, AI notes), so it never zooms back out.
 - **Taps:** macOS cursor on desktop; iOS hover disc + blue ring on the phone.
-- **End card:** the last shot shrinks through an icon-shaped mask onto the **ryOS icon** (`public/icons/mac-512.png`), with `os.ryo.lu` below.
+- **End card:** the last shot shrinks through an icon-shaped mask onto the **ryOS icon** (`public/icons/mac-512.png`), with `mac.enderandrew.com` below.
 - **Content rules:** the Chinese demo word is **豆腐**. The welcome screen (學習 chip) must never show. Captions have no trailing period.
 
 ## Lengths

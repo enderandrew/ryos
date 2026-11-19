@@ -71,12 +71,13 @@ The following environment variables are required for full functionality:
 
 ### Optional Features
 - `RESEND_API_KEY` - Resend API key enabling the account-recovery **email** channel (verify recovery email + email-delivered password-reset codes). **Required together with `RECOVERY_EMAIL_FROM`** — both must be set for the email channel to work. When either is unset, email recovery is unavailable and account recovery falls back to a linked Telegram account.
-- `RECOVERY_EMAIL_FROM` - `From` address for recovery emails (e.g. `ryOS <noreply@os.ryo.lu>`). **Required together with `RESEND_API_KEY`** for the email channel to activate.
+- `RECOVERY_EMAIL_FROM` - `From` address for recovery emails (e.g. `ryOS <noreply@mac.enderandrew.com>`). **Required together with `RESEND_API_KEY`** for the email channel to activate.
 - `ELEVENLABS_API_KEY` - ElevenLabs API (for text-to-speech)
 - `YOUTUBE_API_KEY` - YouTube Data API (for video metadata)
 - `YOUTUBE_API_KEY_2` - YouTube Data API fallback key
 - `YOUTUBE_API_KEY_3` - YouTube Data API second fallback key (tried after `YOUTUBE_API_KEY_2` on quota exhaustion)
-- `OPENAI_API_KEY` - OpenAI API (for audio transcription)
+- `GROQ_API_KEY` - Groq API (preferred for audio transcription, `whisper-large-v3`)
+- `OPENAI_API_KEY` - OpenAI API (OpenAI models, TTS, and the transcription fallback with `whisper-1` when `GROQ_API_KEY` is unset)
 - `MAPKIT_TEAM_ID` / `MAPKIT_KEY_ID` / `MAPKIT_PRIVATE_KEY` / `MAPKIT_ORIGIN` - Apple MapKit (powers the Maps app + the AI's `mapsSearchPlaces` tool via the Apple Maps Server API)
 - `MUSICKIT_TEAM_ID` / `MUSICKIT_KEY_ID` / `MUSICKIT_PRIVATE_KEY` / `MUSICKIT_ORIGIN` - MusicKit JS v3 (Apple Music) used by the iPod's "Apple Music" library mode. Reuse the same `.p8` key as MapKit if both services are enabled on the key — the signer falls back to `MAPKIT_TEAM_ID` / `MAPKIT_KEY_ID` / `MAPKIT_PRIVATE_KEY` when the `MUSICKIT_*` variants are unset.
 - `RYOS_APNS_TEAM_ID` / `RYOS_APNS_KEY_ID` / `RYOS_APNS_KEY_B64` - APNs push notifications for the ryOS iOS app (`api/_utils/push-relay.ts`, `/api/push/register|unregister`). `RYOS_APNS_KEY_B64` is the base64 of the `.p8` file; `RYOS_APNS_KEY_FILE` (path) is accepted instead. Never commit the `.p8` (`*.p8` is gitignored). When unset, device registration still works but no pushes are sent. Test with `bun run push:test <64-hex-token> [sandbox|prod]`.

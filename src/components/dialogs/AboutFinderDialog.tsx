@@ -355,7 +355,7 @@ export function AboutFinderDialog({
                     onClick={(e) => {
                       e.preventDefault();
                       launchApp("internet-explorer", {
-                        url: "os.ryo.lu/docs/changelog",
+                        url: "mac.enderandrew.com/docs/changelog",
                         year: "current",
                       });
                       onOpenChange(false);

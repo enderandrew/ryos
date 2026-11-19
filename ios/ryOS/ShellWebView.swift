@@ -7,7 +7,7 @@ import PhotosUI
 import ImageIO
 import UniformTypeIdentifiers
 
-/// WKWebView shell around https://os.ryo.lu. The web client detects the
+/// WKWebView shell around https://mac.enderandrew.com. The web client detects the
 /// injected `window.ryosDesktop` bridge (the same contract the Electron
 /// desktop shell installs) and hands the shell its notification state.
 struct ShellWebView: UIViewControllerRepresentable {

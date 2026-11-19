@@ -379,6 +379,7 @@
     <a href="/docs/stuff" class="nav-child ">2.29 Stuff</a>
     <a href="/docs/dictionary" class="nav-child ">2.30 Dictionary</a>
     <a href="/docs/fitness" class="nav-child ">2.31 Fitness</a>
+    <a href="/docs/journal" class="nav-child ">2.32 Journal</a>
   </div>
 </div>
 <div class="nav-group ">
@@ -569,7 +570,8 @@ Content-Type: application/json
   }
 }</code></pre>
 <strong>Request Body:</strong>
-<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>roomId</code></td><td>string</td><td>Yes</td><td>Room where the mention occurred</td></tr><tr><td><code>prompt</code></td><td>string</td><td>Yes</td><td>The user's message/question</td></tr><tr><td><code>systemState.chatRoomContext.recentMessages</code></td><td>string</td><td>No</td><td>Recent chat history</td></tr><tr><td><code>systemState.chatRoomContext.mentionedMessage</code></td><td>string</td><td>No</td><td>Message that mentioned <code>@ryo</code></td></tr></tbody></table>
+<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>roomId</code></td><td>string</td><td>Yes</td><td>Room where the mention occurred</td></tr><tr><td><code>prompt</code></td><td>string</td><td>Yes</td><td>The user's message/question (max 4000 characters; same as <code>/api/applet-ai</code>)</td></tr><tr><td><code>systemState.chatRoomContext.recentMessages</code></td><td>string</td><td>No</td><td>Recent chat history as newline-joined <code>username: content</code> lines (max <strong>10</strong> non-empty lines)</td></tr><tr><td><code>systemState.chatRoomContext.mentionedMessage</code></td><td>string</td><td>No</td><td>Message that mentioned <code>@ryo</code> (max 1000 characters)</td></tr></tbody></table>
+<p>Invalid bodies return <code>400 { "error": "validation_error", "issues": [...] }</code>. Generated replies are truncated to the room message length limit (1000 characters) before storage.</p>
 <strong>Response (201):</strong>
 <pre><code>{
   "message": {

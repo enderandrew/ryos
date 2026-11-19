@@ -23,7 +23,7 @@ export const LOOKUP_CACHE_TTL_SECONDS = 60 * 60 * 24 * 30;
 export const LOOKUP_NOT_FOUND_TTL_SECONDS = 60 * 60 * 6;
 /** AI notes and fallback entries. Already long; kept next to the other TTLs. */
 export const DICTIONARY_AI_CACHE_TTL_SECONDS = 60 * 60 * 24 * 30;
-const USER_AGENT = "ryOS-dictionary/1.0 (+https://os.ryo.lu)";
+const USER_AGENT = "ryOS-dictionary/1.0 (+https://mac.enderandrew.com)";
 /** Bump when parser output changes so cached entries are re-parsed. */
 const PARSER_CACHE_VERSION = "v6";
 

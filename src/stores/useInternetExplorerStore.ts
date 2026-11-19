@@ -128,8 +128,8 @@ export const DEFAULT_FAVORITES: Favorite[] = [
   },
   {
     title: "ryOS Docs",
-    url: "https://os.ryo.lu/docs",
-    favicon: "https://www.google.com/s2/favicons?domain=os.ryo.lu&sz=32",
+    url: "https://mac.enderandrew.com/docs",
+    favicon: "https://www.google.com/s2/favicons?domain=mac.enderandrew.com&sz=32",
     year: "current",
     isDirectory: false,
   },

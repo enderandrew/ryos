@@ -31,7 +31,7 @@ import type { ServerToolContext } from "./types.js";
 import { parseIpGeolocationPoint } from "../../../src/shared/ipGeolocation.js";
 
 /** Identifies ryOS to Nominatim per its usage policy (server-side calls only). */
-const GEOCODE_USER_AGENT = "ryOS/1.0 (https://os.ryo.lu)";
+const GEOCODE_USER_AGENT = "ryOS/1.0 (https://mac.enderandrew.com)";
 
 const WEATHER_TIMEOUT_MS = 12_000;
 const FORECAST_DAYS_IN_OUTPUT = 5;

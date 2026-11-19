@@ -761,7 +761,7 @@ def plan(L, dev, B, length=30):
             shot(fz, 4 * B, fz.t("food-review", -0.25))], zoom="review")),
         (45, 51, D("Split it ÷2.", [shot(fz, 0, split_src, split_rate)])),
         (51, 56, D("See your progress.", [shot(fz, 0, fz.t("body", 0.1))], zoom="progress")),
-        (56, None, dict(kind="end", icon="mac-512.png", url="os.ryo.lu", enter="push")),
+        (56, None, dict(kind="end", icon="mac-512.png", url="mac.enderandrew.com", enter="push")),
     ]
 
 
@@ -817,7 +817,7 @@ def plan60(d, fz, extra, B, shot, D, opening, ai_src, meal_src, split_src):
             shot(fz, 4 * B, fz.t("food-review", -0.25))], zoom="review")),
         (104, 110, D("Split it ÷2.", [shot(fz, 0, split_src, (fz.t("tap:half", 0.55) - split_src) / (6 * B))])),
         (110, 118, D("See your progress.", [shot(fz, 0, fz.t("body", 0.1))], zoom="progress")),
-        (118, None, dict(kind="end", icon="mac-512.png", url="os.ryo.lu", enter="push")),
+        (118, None, dict(kind="end", icon="mac-512.png", url="mac.enderandrew.com", enter="push")),
     ]
 
 

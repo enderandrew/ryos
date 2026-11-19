@@ -10,7 +10,7 @@ For the Chrome extension, see the separate [ryOS Subtitles Privacy Policy](/docs
 
 ## Data controller and contact
 
-The data controller for ryOS as hosted at `os.ryo.lu` is Ryo Lu. If you self-host ryOS, the operator of that deployment is the controller for their instance.
+The data controller for ryOS as hosted at `mac.enderandrew.com` is Ryo Lu. If you self-host ryOS, the operator of that deployment is the controller for their instance.
 
 For privacy questions, data-subject requests, or complaints, contact **support@ryo.lu**. You also have the right to lodge a complaint with your local data protection authority.
 

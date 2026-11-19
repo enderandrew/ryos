@@ -44,7 +44,7 @@ checked in.
 
 ## What the shell loads
 
-`ShellViewModel.origin` is hard-coded to `https://os.ryo.lu`. To point the shell
+`ShellViewModel.origin` is hard-coded to `https://mac.enderandrew.com`. To point the shell
 at a local dev server (`bun run dev`, port 5173), temporarily change that URL
 to your machine's LAN address, e.g. `http://192.168.x.x:5173`. Plain HTTP also
 needs an App Transport Security exception in `Info.plist`.
@@ -84,7 +84,7 @@ Later launches go straight to the web view and use the WebKit cache.
 - **Lifecycle messages:** `boot-finished` hides the splash. `app-active` flushes
   a pending notification-tap room.
 - **Push:** after sign-in, the shell requests notification permission and sends
-  the APNs token, username, and rooms to `https://os.ryo.lu/api/push/register`.
+  the APNs token, username, and rooms to `https://mac.enderandrew.com/api/push/register`.
   The server side lives in `api/push/` and `api/_utils/push-relay.ts`.
 
 ## Airbuild

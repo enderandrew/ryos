@@ -379,6 +379,7 @@
     <a href="/docs/stuff" class="nav-child ">2.29 Stuff</a>
     <a href="/docs/dictionary" class="nav-child ">2.30 Dictionary</a>
     <a href="/docs/fitness" class="nav-child ">2.31 Fitness</a>
+    <a href="/docs/journal" class="nav-child ">2.32 Journal</a>
   </div>
 </div>
 <div class="nav-group ">
@@ -660,13 +661,16 @@ data: {"type":"finish","finishReason":"stop"}</code></pre>
 }</code></pre>
 <h2>AI Models</h2>
 <h3>Supported Models</h3>
-<table><thead><tr><th>Model ID</th><th>Provider</th><th>Underlying Model</th></tr></thead><tbody><tr><td><code>gpt-6</code></td><td>OpenAI</td><td>gpt-6-astra (default)</td></tr><tr><td><code>gpt-5.5</code></td><td>OpenAI</td><td>gpt-5.5</td></tr><tr><td><code>sonnet-4.6</code></td><td>Anthropic</td><td>claude-sonnet-4-6</td></tr><tr><td><code>opus-5.5</code></td><td>Anthropic</td><td>claude-opus-5-5 (ryo + debug only)</td></tr><tr><td><code>gemini-3.6-flash</code></td><td>Google</td><td>gemini-3.6-flash</td></tr><tr><td><code>gemini-3.8-flash</code></td><td>Google</td><td>gemini-3.8-flash</td></tr><tr><td><code>gemini-3.1-pro-preview</code></td><td>Google</td><td>gemini-3.1-pro-preview</td></tr></tbody></table>
+<table><thead><tr><th>Model ID</th><th>Provider</th><th>Underlying Model</th></tr></thead><tbody><tr><td><code>gpt-6</code></td><td>OpenAI</td><td>gpt-6-luna (default)</td></tr><tr><td><code>gpt-6.1-sol</code></td><td>OpenAI</td><td>gpt-6.1-sol (ryo only)</td></tr><tr><td><code>gpt-5.5</code></td><td>OpenAI</td><td>gpt-5.5</td></tr><tr><td><code>sonnet-5.5</code></td><td>Anthropic</td><td>claude-sonnet-5-5 (ryo only)</td></tr><tr><td><code>opus-5.5</code></td><td>Anthropic</td><td>claude-opus-5-5 (ryo + debug only)</td></tr><tr><td><code>gemini-3.6-flash</code></td><td>Google</td><td>gemini-3.6-flash</td></tr><tr><td><code>gemini-3.8-flash</code></td><td>Google</td><td>gemini-3.8-flash</td></tr><tr><td><code>gemini-3.1-pro-preview</code></td><td>Google</td><td>gemini-3.1-pro-preview</td></tr></tbody></table>
 <h3>Model Selection</h3>
-<pre><code>// Priority: Query param &gt; Body param &gt; Default
+<pre><code>// Priority: Query param &gt; Body param &gt; Default.
+// Only the authenticated user ryo may select a non-default model.
+// Every other caller is forced to gpt-6.
 const model = queryModel || bodyModel || "gpt-6";</code></pre>
 <h2>Rate Limiting</h2>
 <table><thead><tr><th>User Type</th><th>Limit</th><th>Window</th></tr></thead><tbody><tr><td>Authenticated</td><td>15 messages</td><td>5 hours</td></tr><tr><td>Anonymous</td><td>3 messages</td><td>24 hours</td></tr></tbody></table>
 <p>Anonymous users are identified by IP address. The special user "ryo" (with valid token) has unlimited access.</p>
+<p>A Chats nudge (<code>👋 *nudge sent*</code> and the localized <code>👋 *...*</code> form) and the desktop-assistant summon both count as messages. Signed-in client-tool continuations do not. Proactive greetings from <code>POST /api/ai/conversations/chat/greeting</code> stay outside this quota; eligibility (not twice in a row, not over an active thread) bounds those.</p>
 <h2>Tool Calling</h2>
 <p>The Chat API supports extensive tool calling for controlling ryOS applications and system features.</p>
 <h3>Application Control</h3>
@@ -820,7 +824,7 @@ const response = await fetch('/api/chat', {
       role: 'user',
       parts: [{ type: 'text', text: 'Hello, Ryo!' }]
     },
-    model: 'sonnet-4.6',
+    model: 'sonnet-5.5',
     systemState: {
       username: 'myusername',
       locale: 'en',

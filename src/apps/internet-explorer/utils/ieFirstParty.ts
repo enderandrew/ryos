@@ -3,7 +3,7 @@
  * running, no proxy) instead of through the sandboxed `/api/iframe-check`.
  *
  * - App origins (the current window origin, the configured public origin and
- *   os.ryo.lu) load directly with `allow-same-origin`: ryOS needs its storage
+ *   mac.enderandrew.com) load directly with `allow-same-origin`: ryOS needs its storage
  *   to boot, and it is our own code. Their `/api/` paths never count, so API
  *   responses (the proxy included) are never framed with the app origin.
  * - `https://ryo.lu` loads directly with `allow-same-origin`.
@@ -17,7 +17,7 @@
  * userinfo.
  */
 
-export const DEFAULT_APP_ORIGIN = "https://os.ryo.lu";
+export const DEFAULT_APP_ORIGIN = "https://mac.enderandrew.com";
 export const RYO_APEX_HOST = "ryo.lu";
 
 export type IeTargetTrust =

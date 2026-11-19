@@ -24,7 +24,7 @@ describe("desktop chat notification policy", () => {
   test("sanitizes public realtime config without accepting invalid origins", () => {
     expect(
       sanitizeDesktopChatNotificationConfig({
-        appPublicOrigin: "https://os.ryo.lu/some/path",
+        appPublicOrigin: "https://mac.enderandrew.com/some/path",
         realtimeProvider: "pusher",
         websocketUrl: "wss://evil.example/ws",
         pusher: {
@@ -33,7 +33,7 @@ describe("desktop chat notification policy", () => {
         },
       })
     ).toEqual({
-      appPublicOrigin: "https://os.ryo.lu",
+      appPublicOrigin: "https://mac.enderandrew.com",
       realtimeProvider: "pusher",
       websocketUrl: null,
       pusher: {
@@ -62,9 +62,9 @@ describe("desktop chat notification policy", () => {
     expect(
       shouldUseMainChatNotificationService(
         sanitizeDesktopChatNotificationConfig({
-          appPublicOrigin: "https://os.ryo.lu",
+          appPublicOrigin: "https://mac.enderandrew.com",
           realtimeProvider: "local",
-          websocketUrl: "wss://os.ryo.lu/ws",
+          websocketUrl: "wss://mac.enderandrew.com/ws",
         }),
         state
       )
@@ -73,7 +73,7 @@ describe("desktop chat notification policy", () => {
     expect(
       shouldUseMainChatNotificationService(
         sanitizeDesktopChatNotificationConfig({
-          appPublicOrigin: "https://os.ryo.lu",
+          appPublicOrigin: "https://mac.enderandrew.com",
           realtimeProvider: "pusher",
           websocketUrl: null,
           pusher: { key: "public-key", cluster: "us3" },
@@ -124,27 +124,27 @@ describe("desktop chat notification policy", () => {
   test("sanitizes local WebSocket config and strips ticket params", () => {
     expect(
       sanitizeDesktopChatNotificationConfig({
-        appPublicOrigin: "https://os.ryo.lu",
+        appPublicOrigin: "https://mac.enderandrew.com",
         realtimeProvider: "local",
-        websocketUrl: "wss://os.ryo.lu/ws?ticket=leaked&v=1#frag",
+        websocketUrl: "wss://mac.enderandrew.com/ws?ticket=leaked&v=1#frag",
       })
     ).toEqual({
-      appPublicOrigin: "https://os.ryo.lu",
+      appPublicOrigin: "https://mac.enderandrew.com",
       realtimeProvider: "local",
-      websocketUrl: "wss://os.ryo.lu/ws?v=1",
+      websocketUrl: "wss://mac.enderandrew.com/ws?v=1",
       pusher: null,
     });
 
     expect(
       sanitizeDesktopChatNotificationWebSocketUrl(
         "wss://attacker.example/ws",
-        "https://os.ryo.lu"
+        "https://mac.enderandrew.com"
       )
     ).toBeNull();
     expect(
       sanitizeDesktopChatNotificationWebSocketUrl(
-        "ws://os.ryo.lu/ws",
-        "https://os.ryo.lu"
+        "ws://mac.enderandrew.com/ws",
+        "https://mac.enderandrew.com"
       )
     ).toBeNull();
     expect(
@@ -169,8 +169,8 @@ describe("desktop chat notification policy", () => {
       '{"type":"ping"}'
     );
     expect(
-      buildLocalRealtimeTicketWebSocketUrl("wss://os.ryo.lu/ws?v=1", "ticket-a")
-    ).toBe("wss://os.ryo.lu/ws?v=1&ticket=ticket-a");
+      buildLocalRealtimeTicketWebSocketUrl("wss://mac.enderandrew.com/ws?v=1", "ticket-a")
+    ).toBe("wss://mac.enderandrew.com/ws?v=1&ticket=ticket-a");
   });
 
   test("renderer hook resumes renderer mode from main fallback status", () => {

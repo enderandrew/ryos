@@ -96,7 +96,7 @@ export function getApiBaseUrl(): string {
  * Get the full API URL for a given path.
  * Automatically handles desktop vs web differences.
  * @param path - API path (e.g., "/api/chat")
- * @returns Full URL (e.g., "https://os.ryo.lu/api/chat" in desktop, "/api/chat" in web)
+ * @returns Full URL (e.g., "https://mac.enderandrew.com/api/chat" in desktop, "/api/chat" in web)
  */
 export function getApiUrl(path: string): string {
   const baseUrl = getApiBaseUrl();

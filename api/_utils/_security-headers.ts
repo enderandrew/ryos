@@ -6,7 +6,7 @@
 import { getConfiguredPublicOrigin } from "./runtime-config.js";
 import { getRuntimeEnv } from "./_cors.js";
 
-const DEFAULT_APP_ORIGIN = "https://os.ryo.lu";
+const DEFAULT_APP_ORIGIN = "https://mac.enderandrew.com";
 
 /**
  * Who may frame ryOS documents and session-carrying API responses: the app
@@ -48,7 +48,7 @@ export function getDocumentFrameAncestors(): string[] {
  * Ancestors allowed to frame `/api/iframe-check` documents. When the proxy
  * runs on its own origin `'self'` is that origin, so the app origins must be
  * listed explicitly. `frame-ancestors` checks every ancestor, so ryo.lu and
- * *.ryo.lu (which may frame os.ryo.lu) have to stay in the list too. (pragma: allowlist secret)
+ * *.ryo.lu (which may frame mac.enderandrew.com) have to stay in the list too. (pragma: allowlist secret)
  */
 export function getIeProxyFrameAncestors(): string[] {
   const values = getDocumentFrameAncestors();

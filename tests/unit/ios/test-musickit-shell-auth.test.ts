@@ -28,9 +28,9 @@ const {
   parseAuthSheetCallback,
 } = await import("../../../src/utils/musicKitShellAuth");
 
-const ORIGIN = "https://os.ryo.lu";
+const ORIGIN = "https://mac.enderandrew.com";
 const AUTHORIZE_URL =
-  "https://authorize.music.apple.com/woa?a=abc&referrer=os.ryo.lu&app=music&p=subscribe";
+  "https://authorize.music.apple.com/woa?a=abc&referrer=mac.enderandrew.com&app=music&p=subscribe";
 const AUTH_PAGE = readFileSync(
   join(import.meta.dir, "../../../public", MUSICKIT_AUTH_PAGE_PATH),
   "utf8"

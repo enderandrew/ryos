@@ -687,7 +687,7 @@ describe("song share resolver", () => {
       expect(yt.fetchMock).not.toHaveBeenCalled();
 
       const karaoke = await resolveSongShareLinkPreview(
-        `https://os.ryo.lu/karaoke/${songId}`
+        `https://mac.enderandrew.com/karaoke/${songId}`
       );
       expect(karaoke).toMatchObject({
         title: "Sing Curated Title - Curated Artist on ryOS",
@@ -698,7 +698,7 @@ describe("song share resolver", () => {
       });
 
       const ipod = await resolveSongShareLinkPreview(
-        `https://os.ryo.lu/ipod/${songId}`
+        `https://mac.enderandrew.com/ipod/${songId}`
       );
       expect(ipod?.title).toBe("Curated Title - Curated Artist");
       expect(ipod?.description).toBe("Listen on ryOS iPod");
@@ -724,7 +724,7 @@ describe("song share resolver", () => {
       expect(yt.fetchMock).toHaveBeenCalledTimes(1);
 
       const preview = await resolveSongShareLinkPreview(
-        `https://os.ryo.lu/karaoke/${songId}`
+        `https://mac.enderandrew.com/karaoke/${songId}`
       );
       expect(preview?.source).toBe("youtube");
       expect(preview?.title).toBe(

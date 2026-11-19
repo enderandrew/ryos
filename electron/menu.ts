@@ -6,7 +6,7 @@ import {
 } from "electron";
 import { checkForUpdates } from "./updater";
 
-const APP_HOMEPAGE = "https://os.ryo.lu";
+const APP_HOMEPAGE = "https://mac.enderandrew.com";
 
 /**
  * Build and install the native application menu.

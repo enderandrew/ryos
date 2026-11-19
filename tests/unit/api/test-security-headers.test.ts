@@ -54,7 +54,7 @@ describe("applySecurityHeaders", () => {
     process.env.APP_HSTS = "0";
     const disabled = applySecurityHeaders(
       new Response("ok"),
-      new Request("https://os.ryo.lu/")
+      new Request("https://mac.enderandrew.com/")
     );
     expect(disabled.headers.get("strict-transport-security")).toBeNull();
   });
@@ -91,11 +91,11 @@ describe("applySecurityHeaders", () => {
 
   test("handles immutable redirect responses", () => {
     const res = applySecurityHeaders(
-      Response.redirect("https://os.ryo.lu/docs/overview", 302),
+      Response.redirect("https://mac.enderandrew.com/docs/overview", 302),
       new Request("http://localhost:3000/docs")
     );
     expect(res.status).toBe(302);
-    expect(res.headers.get("location")).toBe("https://os.ryo.lu/docs/overview");
+    expect(res.headers.get("location")).toBe("https://mac.enderandrew.com/docs/overview");
     expect(res.headers.get("x-content-type-options")).toBe("nosniff");
   });
 });

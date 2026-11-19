@@ -2,7 +2,7 @@
 
 *Last updated: October 1, 2026.*
 
-ryOS is a web-based desktop environment at [os.ryo.lu](https://os.ryo.lu), also available as a native iPhone app, **ryOS Mobile**. This page covers support for both. For how ryOS handles data, see the [privacy policy](/docs/privacy); for the app's notification feature specifically, see [its section in the privacy policy](/docs/privacy#notifications-on-the-iphone-app-ryos-mobile).
+ryOS is a web-based desktop environment at [mac.enderandrew.com](https://mac.enderandrew.com), also available as a native iPhone app, **ryOS Mobile**. This page covers support for both. For how ryOS handles data, see the [privacy policy](/docs/privacy); for the app's notification feature specifically, see [its section in the privacy policy](/docs/privacy#notifications-on-the-iphone-app-ryos-mobile).
 
 ## Contact
 

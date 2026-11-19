@@ -379,6 +379,7 @@
     <a href="/docs/stuff" class="nav-child ">2.29 Stuff</a>
     <a href="/docs/dictionary" class="nav-child ">2.30 Dictionary</a>
     <a href="/docs/fitness" class="nav-child ">2.31 Fitness</a>
+    <a href="/docs/journal" class="nav-child ">2.32 Journal</a>
   </div>
 </div>
 <div class="nav-group ">
@@ -491,15 +492,17 @@
 <table><thead><tr><th>Method</th><th>Path</th><th>Purpose</th></tr></thead><tbody><tr><td>GET</td><td><code>/api/kosync/healthcheck</code></td><td><code>{ state: "OK" }</code></td></tr><tr><td>POST</td><td><code>/api/kosync/users/create</code></td><td>Register kosync credentials</td></tr><tr><td>GET</td><td><code>/api/kosync/users/auth</code></td><td>Validate <code>X-Auth-User</code> + <code>X-Auth-Key</code></td></tr><tr><td>PUT</td><td><code>/api/kosync/syncs/progress</code></td><td>Upsert progress</td></tr><tr><td>GET</td><td><code>/api/kosync/syncs/progress/:document</code></td><td>Fetch progress</td></tr></tbody></table>
 <p>Protocol details match the <a href="https://github.com/koreader/koreader-sync-server">official koreader-sync-server</a>: JSON bodies, <code>Accept: application/vnd.koreader.v1+json</code>, and MD5 password keys.</p>
 <h2>Setup in KOReader</h2>
-<ol><li>Sign in to ryOS (web) at least once with your account — that syncs an MD5</li></ol>
-   of your password for KOReader auth.
+<ol><li>Sign in to ryOS (web) at least once with your account — that stores a</li></ol>
+   bcrypt verifier of <code>md5(password)</code> for KOReader auth (KOReader still
+   sends the MD5 on the wire; Redis never keeps the unsalted MD5).
 <ol><li>Open <strong>Progress Sync</strong> plugin settings.</li><li>Set <strong>Custom sync server</strong> to <code>https://&lt;host&gt;/api/kosync</code>.</li><li><strong>Register</strong> or <strong>Login</strong> with the <strong>same username and password</strong> as ryOS.</li></ol>
-   KOReader sends <code>md5(password)</code>; the server matches it to your ryOS password.
+   KOReader sends <code>md5(password)</code>; the server verifies it against the stored
+   kosync verifier.
 <ol><li>Prefer <strong>filename</strong> document matching when the EPUB basename matches the</li></ol>
    file in ryOS <code>/Books/</code> (e.g. <code>Meditations - Marcus Aurelius.epub</code>).
    Binary (partial MD5) matching also works once Books has hashed the file.
 <h2>Auth notes</h2>
-<p>Kosync uses your <strong>ryOS account password</strong> (via MD5 on the wire, same as the official KOReader protocol). Signing in, registering, or changing your password on ryOS refreshes the kosync key. There is no separate sync password. Registration from KOReader requires an existing ryOS account that has signed in at least once.</p>
+<p>Kosync uses your <strong>ryOS account password</strong> (via MD5 on the wire, same as the official KOReader protocol). The server stores <code>bcrypt(md5(password))</code>, not the raw MD5. Signing in, registering, or changing your password on ryOS refreshes that verifier. Legacy unsalted MD5 keys still authenticate once and are rehashed on success. Auth attempts share the same per-username login lockout as <code>/api/auth/login</code> (20 failures/hour → 1-hour lock) and are also limited to 120 requests/minute per IP. There is no separate sync password. Registration from KOReader requires an existing ryOS account that has signed in at least once.</p>
 <h2>How it bridges to Books</h2>
 <p>Books keeps <strong>two locators</strong> for the same reading position:</p>
 <table><thead><tr><th>Field</th><th>Used by</th><th>Purpose</th></tr></thead><tbody><tr><td><code>cfi</code></td><td>ryOS Books (epub.js)</td><td>Native EPUB CFI for precise restore in the browser</td></tr><tr><td><code>kosyncProgress</code></td><td>CrossPoint / KOReader KOSync</td><td>KO-style XPath (<code>/body/DocFragment[N]/body/.../text()[N].offset</code>)</td></tr><tr><td><code>percentage</code></td><td>Both (fallback)</td><td>Approximate 0..1 progress when XPath/CFI conversion fails</td></tr></tbody></table>

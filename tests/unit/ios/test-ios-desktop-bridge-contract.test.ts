@@ -262,7 +262,7 @@ describe("haptics", () => {
 
 describe("notifications", () => {
   test("configure keeps state updates flowing without taking over notifications", async () => {
-    const config = { appPublicOrigin: "https://os.ryo.lu" };
+    const config = { appPublicOrigin: "https://mac.enderandrew.com" };
     const state = { username: "a", isAuthenticated: true, rooms: [] };
     const result = page.window.ryosDesktop.configureChatNotifications(config, state);
     page.window.ryosDesktop.updateChatNotificationState(state);
@@ -352,7 +352,7 @@ describe("notifications", () => {
     expect(relaySwift).toContain('$0.name == "ryos_auth"');
     expect(relaySwift).toContain("private static let maxRooms = 200");
     // The session cookie only ever goes to the app origin.
-    expect(relaySwift).not.toMatch(/https?:\/\/(?!os\.ryo\.lu)[a-z0-9.-]+\//i);
+    expect(relaySwift).not.toMatch(/https?:\/\/(?!mac\.enderandrew\.com)[a-z0-9.-]+\//i);
     expect(relaySwift).not.toContain("X-Ryos-Auth");
     expect(relaySwift).not.toContain("authCookie");
   });
@@ -385,7 +385,7 @@ function swiftFunctionBody(source: string, signature: string): string {
 describe("auth popups and the auth sheet", () => {
   test("openAuthSheet forwards its options and outlives the default bridge timeout", async () => {
     const options = {
-      url: "https://os.ryo.lu/musickit-auth.html",
+      url: "https://mac.enderandrew.com/musickit-auth.html",
       callback: "ryos-auth://musickit",
       reason: "musickit popup failed",
     };

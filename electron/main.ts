@@ -16,7 +16,7 @@ import { buildApplicationMenu } from "./menu";
 import { registerChatNotificationIpcHandlers } from "./chat-notifications";
 import { replaceControlCharacters } from "../src/shared/sanitizeControlCharacters";
 
-const DEFAULT_APP_URL = "https://os.ryo.lu";
+const DEFAULT_APP_URL = "https://mac.enderandrew.com";
 const APP_URL = process.env.RYOS_ELECTRON_URL?.trim() || DEFAULT_APP_URL;
 const APP_DISPLAY_NAME = "ryOS";
 const APP_ID = "lu.ryo.os";

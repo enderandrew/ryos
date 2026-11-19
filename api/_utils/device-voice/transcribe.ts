@@ -1,4 +1,11 @@
-export const REALTIME_TRANSCRIBE_URL = "wss://api.groq.com/openai/v1/realtime?intent=transcription";
+/**
+ * Streaming (while-you-talk) transcription is OpenAI-only: Groq has no
+ * realtime endpoint and gpt-live-transcribe is an OpenAI model. Without
+ * OPENAI_API_KEY the constructor throws, and the device-voice session falls
+ * back to uploading the finished utterance via transcribeAudioBuffer, which
+ * uses Groq whisper-large-v3 when GROQ_API_KEY is set.
+ */
+export const REALTIME_TRANSCRIBE_URL = "wss://api.openai.com/v1/realtime?intent=transcription";
 export const REALTIME_TRANSCRIBE_MODEL = "gpt-live-transcribe";
 /** Realtime transcription only takes 24 kHz PCM. */
 export const REALTIME_TRANSCRIBE_RATE = 24000;
@@ -46,7 +53,7 @@ export class RealtimeTranscription {
     apiKey = process.env.OPENAI_API_KEY,
     connect = connectBunSocket,
   }: { apiKey?: string; connect?: ConnectTranscribeSocket } = {}) {
-    if (!apiKey) throw new Error("OpenAI API key not configured");
+    if (!apiKey) throw new Error("OpenAI API key not configured (realtime transcription is OpenAI-only)");
     this.socket = connect(REALTIME_TRANSCRIBE_URL, apiKey);
     this.socket.onopen = () => {
       this.socket.send(

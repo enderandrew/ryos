@@ -379,6 +379,7 @@
     <a href="/docs/stuff" class="nav-child ">2.29 Stuff</a>
     <a href="/docs/dictionary" class="nav-child ">2.30 Dictionary</a>
     <a href="/docs/fitness" class="nav-child ">2.31 Fitness</a>
+    <a href="/docs/journal" class="nav-child ">2.32 Journal</a>
   </div>
 </div>
 <div class="nav-group ">
@@ -548,6 +549,7 @@ console.log(metadata);
 <h4><code>proxy</code> Mode (Default)</h4>
 <p>Proxies the content with embedding-blocking headers removed. Injects: <ul><li><code>&lt;base&gt;</code> tag for relative URL resolution</li><li>Click interceptor script for navigation handling</li><li>History API patch for cross-origin compatibility</li><li>Font override styles (unless theme is "macosx")</li></ul></p>
 <strong>Response:</strong> The proxied HTML content with modified headers.
+<p>HTML bodies are refused above ~2.5 MB (<code>413</code>). Raw (<code>raw=1</code>) and other non-HTML passthrough streams are capped at ~25 MB: the proxy stops reading upstream, aborts the fetch when possible, and ends the response (truncated body; status/headers already committed).</p>
 <strong>Custom Response Headers:</strong>
 <table><thead><tr><th>Header</th><th>Description</th></tr></thead><tbody><tr><td><code>X-Proxied-Page-Title</code></td><td>URL-encoded page title (if available)</td></tr><tr><td><code>X-Wayback-Cache</code></td><td>"HIT" if content was served from Wayback cache</td></tr></tbody></table>
 <h4><code>ai</code> Mode</h4>
@@ -642,7 +644,7 @@ const waybackSrc = `/api/iframe-check?url=https://example.com&amp;mode=proxy&amp
 <strong>Response (200):</strong>
 <pre><code>{
   "id": "abc123def456...",
-  "shareUrl": "https://os.ryo.lu/applet-viewer/abc123def456...",
+  "shareUrl": "https://mac.enderandrew.com/applet-viewer/abc123def456...",
   "updated": false,
   "createdAt": 1704067200000
 }</code></pre>

@@ -74,7 +74,7 @@ export const DICTIONARY_SOURCE_INFO: Record<DictionarySource, DictionarySourceIn
   ai: {
     name: "AI",
     license: "Generated — may contain mistakes",
-    url: "https://os.ryo.lu",
+    url: "https://mac.enderandrew.com",
   },
 };
 

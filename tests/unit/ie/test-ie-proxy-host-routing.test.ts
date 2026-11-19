@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * Production shape behind Cloudflare + Traefik: both hosts reach the same
- * server with their Host header intact. os.ryo.lu bounces proxy navigations
+ * server with their Host header intact. mac.enderandrew.com bounces proxy navigations
  * to the isolated host, the isolated host only renders proxied pages, every
  * proxy response is sandboxed and framable by ryOS origins only, and without
  * IE_PROXY_ORIGIN nothing redirects.
@@ -51,7 +51,7 @@ afterAll(() => {
 function setProduction(proxyOrigin: string | null) {
   process.env.API_RUNTIME_ENV = "production";
   process.env.API_ALLOWED_ORIGINS = "*.ryo.lu,https://ryo.lu"; // pragma: allowlist secret
-  process.env.APP_PUBLIC_ORIGIN = "https://os.ryo.lu";
+  process.env.APP_PUBLIC_ORIGIN = "https://mac.enderandrew.com";
   if (proxyOrigin) process.env.IE_PROXY_ORIGIN = proxyOrigin;
   else delete process.env.IE_PROXY_ORIGIN;
 }
@@ -139,11 +139,11 @@ afterEach(() => {
 });
 
 describe("IE proxy behind Cloudflare + Traefik", () => {
-  test("os.ryo.lu redirects proxy navigations to the isolated host", async () => {
+  test("mac.enderandrew.com redirects proxy navigations to the isolated host", async () => {
     setProduction("https://ieproxy.ryo.lu");
     const { res, state } = makeRes();
     await handler(
-      makeReq("os.ryo.lu", PROXY_PATH, { referer: "https://os.ryo.lu/" }),
+      makeReq("mac.enderandrew.com", PROXY_PATH, { referer: "https://mac.enderandrew.com/" }),
       res
     );
     expect(state.status).toBe(302);
@@ -157,7 +157,7 @@ describe("IE proxy behind Cloudflare + Traefik", () => {
     stubLimiterDenied();
     const { res, state } = makeRes();
     await handler(
-      makeReq("ieproxy.ryo.lu", PROXY_PATH, { referer: "https://os.ryo.lu/" }),
+      makeReq("ieproxy.ryo.lu", PROXY_PATH, { referer: "https://mac.enderandrew.com/" }),
       res
     );
     expect(state.status).toBe(429);
@@ -166,18 +166,18 @@ describe("IE proxy behind Cloudflare + Traefik", () => {
     expect(csp).toContain("sandbox allow-scripts allow-forms allow-popups allow-pointer-lock");
     expect(csp).not.toContain("allow-same-origin");
     const ancestors = frameAncestors(csp);
-    expect(ancestors).toContain("https://os.ryo.lu");
+    expect(ancestors).toContain("https://mac.enderandrew.com");
     expect(ancestors).toContain("https://*.ryo.lu"); // pragma: allowlist secret
     expect(ancestors).toContain("https://ryo.lu");
     expect(ancestors).not.toContain("*");
     // Only the trusted app may read isolated-host responses; never a wildcard.
-    expect(state.headers["access-control-allow-origin"]).toBe("https://os.ryo.lu");
+    expect(state.headers["access-control-allow-origin"]).toBe("https://mac.enderandrew.com");
   });
 
   test("dev and preview parents are framing-allowed on the isolated host", async () => {
     setProduction("https://ieproxy.ryo.lu");
     stubLimiterDenied();
-    for (const parent of ["https://dev.ryo.lu", "https://pr-7-preview.os.ryo.lu"]) { // pragma: allowlist secret
+    for (const parent of ["https://dev.ryo.lu", "https://pr-7-preview.mac.enderandrew.com"]) { // pragma: allowlist secret
       const { res, state } = makeRes();
       await handler(makeReq("ieproxy.ryo.lu", PROXY_PATH, { referer: `${parent}/` }), res);
       expect(state.status).toBe(429);
@@ -204,11 +204,11 @@ describe("IE proxy behind Cloudflare + Traefik", () => {
     }
   });
 
-  test("requests from the isolated origin to os.ryo.lu are rejected", async () => {
+  test("requests from the isolated origin to mac.enderandrew.com are rejected", async () => {
     setProduction("https://ieproxy.ryo.lu");
     const { res, state } = makeRes();
     await handler(
-      makeReq("os.ryo.lu", `/api/iframe-check?mode=check&url=${encodeURIComponent("https://example.com")}`, {
+      makeReq("mac.enderandrew.com", `/api/iframe-check?mode=check&url=${encodeURIComponent("https://example.com")}`, {
         origin: "https://ieproxy.ryo.lu",
       }),
       res
@@ -216,12 +216,12 @@ describe("IE proxy behind Cloudflare + Traefik", () => {
     expect(state.status).toBe(403);
   });
 
-  test("without IE_PROXY_ORIGIN, os.ryo.lu serves the stripped proxy itself", async () => {
+  test("without IE_PROXY_ORIGIN, mac.enderandrew.com serves the stripped proxy itself", async () => {
     setProduction(null);
     stubLimiterDenied();
     const { res, state } = makeRes();
     await handler(
-      makeReq("os.ryo.lu", PROXY_PATH, { referer: "https://os.ryo.lu/" }),
+      makeReq("mac.enderandrew.com", PROXY_PATH, { referer: "https://mac.enderandrew.com/" }),
       res
     );
     expect(state.status).toBe(429);

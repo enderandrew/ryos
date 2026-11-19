@@ -379,6 +379,7 @@
     <a href="/docs/stuff" class="nav-child ">2.29 Stuff</a>
     <a href="/docs/dictionary" class="nav-child ">2.30 Dictionary</a>
     <a href="/docs/fitness" class="nav-child ">2.31 Fitness</a>
+    <a href="/docs/journal" class="nav-child ">2.32 Journal</a>
   </div>
 </div>
 <div class="nav-group ">
@@ -496,7 +497,7 @@
 <pre><code>Authorization: Bearer &lt;auth_token&gt;
 X-Username: &lt;username&gt;</code></pre>
 <h3>Permission Levels</h3>
-<table><thead><tr><th>Operation</th><th>Required Permission</th></tr></thead><tbody><tr><td>List songs</td><td>None</td></tr><tr><td>Create song</td><td>Authenticated</td></tr><tr><td>Update own song</td><td>Authenticated (owner)</td></tr><tr><td>Update any song</td><td>Admin only</td></tr><tr><td>Delete song</td><td>Admin only</td></tr><tr><td>Bulk import</td><td>Admin only</td></tr><tr><td>Delete all songs</td><td>Admin only</td></tr></tbody></table>
+<table><thead><tr><th>Operation</th><th>Required Permission</th></tr></thead><tbody><tr><td>List songs</td><td>None</td></tr><tr><td>Create song</td><td>Authenticated</td></tr><tr><td>Update own song</td><td>Authenticated (owner)</td></tr><tr><td>Update lyric offset only</td><td>Any signed-in user</td></tr><tr><td>Update any other song field</td><td>Owner, or admin (<code>ryo</code>)</td></tr><tr><td>Clear cached annotations (<code>clear-cached-data</code>)</td><td>Owner, or admin (<code>ryo</code>); any signed-in user when the song has no <code>createdBy</code></td></tr><tr><td>Delete song</td><td>Admin only</td></tr><tr><td>Bulk import</td><td>Admin only</td></tr><tr><td>Delete all songs</td><td>Admin only</td></tr></tbody></table>
 <p>The admin user is <code>ryo</code> (case-insensitive).</p>
 <hr>
 <h2>Collection Endpoints</h2>
@@ -639,7 +640,7 @@ X-Username: &lt;username&gt;</code></pre>
 <h3>POST /api/songs/{id}</h3>
 <p>Update song metadata or perform an action.</p>
 <h4>Actions</h4>
-<table><thead><tr><th>Action</th><th>Description</th><th>Auth Required</th></tr></thead><tbody><tr><td>(none)</td><td>Update metadata</td><td>Yes (owner)</td></tr><tr><td><code>search-lyrics</code></td><td>Search KuGou for lyrics</td><td>No</td></tr><tr><td><code>fetch-lyrics</code></td><td>Fetch lyrics from KuGou</td><td>First fetch: No, Force refresh: Yes</td></tr><tr><td><code>translate</code></td><td>Generate full translation (non-streaming JSON)</td><td>First: No, Force: Yes</td></tr><tr><td><code>translate-stream</code></td><td>Generate translation (SSE)</td><td>First: No, Force: Yes</td></tr><tr><td><code>furigana-stream</code></td><td>Generate furigana (SSE)</td><td>First: No, Force: Yes</td></tr><tr><td><code>soramimi-stream</code></td><td>Generate soramimi (SSE)</td><td>First: No, Force: Yes</td></tr><tr><td><code>clear-cached-data</code></td><td>Clear cached annotations</td><td>No</td></tr><tr><td><code>unshare</code></td><td>Clear createdBy field</td><td>Admin only</td></tr></tbody></table>
+<table><thead><tr><th>Action</th><th>Description</th><th>Auth Required</th></tr></thead><tbody><tr><td>(none)</td><td>Update metadata</td><td>Yes. Owner or admin for other fields. Any signed-in user may POST only <code>lyricOffset</code> (clamped to ±300000 ms, 60/min per user). Anonymous users cannot write.</td></tr><tr><td><code>search-lyrics</code></td><td>Search KuGou for lyrics</td><td>No</td></tr><tr><td><code>fetch-lyrics</code></td><td>Fetch lyrics from KuGou</td><td>First fetch: No, Force refresh: Yes</td></tr><tr><td><code>translate</code></td><td>Generate full translation (non-streaming JSON)</td><td>First: No, Force: Yes</td></tr><tr><td><code>translate-stream</code></td><td>Generate translation (SSE)</td><td>First: No, Force: Yes</td></tr><tr><td><code>furigana-stream</code></td><td>Generate furigana (SSE)</td><td>First: No, Force: Yes</td></tr><tr><td><code>soramimi-stream</code></td><td>Generate soramimi (SSE)</td><td>First: No, Force: Yes</td></tr><tr><td><code>clear-cached-data</code></td><td>Clear cached annotations</td><td>Yes (owner/admin, or any signed-in user when the song has no <code>createdBy</code>; 10/min per user)</td></tr><tr><td><code>unshare</code></td><td>Clear createdBy field</td><td>Admin only</td></tr></tbody></table>
 <hr>
 <h2>Action: search-lyrics</h2>
 <p>Search for matching lyrics on KuGou.</p>
@@ -779,18 +780,20 @@ X-Username: &lt;username&gt;</code></pre>
 <strong>Note</strong>: Chinese soramimi is automatically skipped for Chinese lyrics (returns <code>{"skipped": true, "skipReason": "chinese_lyrics"}</code>).
 <hr>
 <h2>Action: clear-cached-data</h2>
-<p>Clear cached translations, furigana, and/or soramimi.</p>
+<p>Clear cached translations, furigana, soramimi, and/or cover color.</p>
+<p>Requires a signed-in caller who can modify the song (<code>canModifySong</code>: owner or admin; any signed-in user when the song has no <code>createdBy</code>). Anonymous requests receive <code>401</code>. Rate limited to 10 requests per minute per user.</p>
 <h4>Request</h4>
 <pre><code>{
   "action": "clear-cached-data",
   "clearTranslations": true,
   "clearFurigana": true,
-  "clearSoramimi": true
+  "clearSoramimi": true,
+  "clearCoverColor": true
 }</code></pre>
 <h4>Response</h4>
 <pre><code>{
   "success": true,
-  "cleared": ["translations", "furigana", "soramimi"]
+  "cleared": ["translations", "furigana", "soramimi", "coverColor"]
 }</code></pre>
 <hr>
 <h2>Update Metadata</h2>

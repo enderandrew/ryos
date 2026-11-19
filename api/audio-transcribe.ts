@@ -3,7 +3,10 @@ import * as RateLimit from "./_utils/_rate-limit.js";
 import { getClientIp } from "./_utils/_rate-limit.js";
 import { isAllowedOrigin, getEffectiveOrigin, setCorsHeaders } from "./_utils/_cors.js";
 import { initLogger } from "./_utils/_logging.js";
-import { transcribeAudioBuffer } from "./_utils/voice.js";
+import {
+  TranscriptionNotConfiguredError,
+  transcribeAudioBuffer,
+} from "./_utils/voice.js";
 import formidable from "formidable";
 import fs from "fs";
 
@@ -140,7 +143,7 @@ export default async function handler(
       return;
     }
 
-    // Create a File with correct name/extension so OpenAI can detect format
+    // Create a File with correct name/extension so the provider can detect format
     // (temp path from formidable may lack extension, causing 400 "Invalid file format")
     const buffer = await fs.promises.readFile(audioFile.filepath);
     fs.unlink(audioFile.filepath, () => {});
@@ -155,6 +158,12 @@ export default async function handler(
     res.status(200).json({ text: transcriptionText });
 
   } catch (error: unknown) {
+    if (error instanceof TranscriptionNotConfiguredError) {
+      logger.warn("Transcription requested but no provider key is set");
+      logger.response(503, Date.now() - startTime);
+      res.status(503).json({ error: error.message });
+      return;
+    }
     logger.error("Error processing audio", error);
     const openAIError = error as OpenAIError;
     logger.response(openAIError.status || 500, Date.now() - startTime);
